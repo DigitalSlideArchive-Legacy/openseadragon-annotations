@@ -14,6 +14,45 @@ jQuery is also a dependency and so is jQueryUI;  In order to do annotation(s) yo
 This same functionality can also be used to load previously saved annotations back onto the OSD Canvas.
 
 
+So within the OSD code, I generate an instance of my anntoator called
+
+annotationState()
+
+
+Once I drew some annotations I can do;
+currentdataset = annotationState.storeAnnotations()
+
+##Various functionality
+To clear annotations you can call:
+annotationState.clearAnnotations()
+
+# Once I clear the data, if I run
+
+annotationState.loadAnnotations(currentdataset)
+
+it will reload the ROI's I just drew.  ROI's can also be drawn directly if I specify the JSON properly
+
+
+
+
+
+
+
+
+
+
+Attatched to this object is annotationState.annotations that actually stores the annotation data I just created.
+
+So after I draw a couple of objects, I issue the following from the javascript console:
+
+currentDataSet = annotationState.storeAnnotation()
+//This converts the individual annotations into a simpler JSON object for storing on the server.  I also need  to store additional metadata that actually tells me WHAT image the ROIs were drawn on
+
+
+
+
+
+
 As a simple example, the following code will load four shapes onto the Canvas:
 
 
