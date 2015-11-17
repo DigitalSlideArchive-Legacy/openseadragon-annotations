@@ -111,7 +111,7 @@
         console.log('resize');
 
         // this is expensive, easier to just save these long term, but oh well.
-
+        //Not sure I need this with the new bootstrap code...
         var nav_height = $(".navbar").height();
         var status_bar_height = $('#status_bar').height();
         var select_patient_height = $("#sel_patient").height();
@@ -136,7 +136,7 @@
     sample_file_info = {
         'filename': 'TCGA-2H-A9GG-11A-01-TS1',
         'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
-        'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=300'
+        'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
     }
 
 
@@ -156,7 +156,7 @@
         <div class="row-fluid">
             <div class="col-md-3" id="sel_image_frame">
                 <div id="sel_image" class="">
-                    Image Selector Goes Here if Needed
+                    Image Selector Should Go Here
                     <img id="thumbnail_img" src="">
                     <a class="btn btn-small sel_image_action pull-right">
                         <span class="icon-fullscreen"></span>
@@ -174,7 +174,14 @@
         </div>
     </div>
     <div style="clear:both"></div>
-    <div class="" id="status_bar">Main Status Bar</div>
+    
+    <footer class="footer">
+      <div class="container">
+        <div class="" id="status_bar">Main Status Bar</div>
+    
+      </div>
+    </footer>
+
     
     <script>
     var config;
@@ -289,7 +296,7 @@
 
         current_filename = image_info_object.filename;
         current_slide_url = image_info_object.image_url;
-        current_thumb = image_info_object.thumbnail_img;
+        current_thumb = image_info_object.file_thumbnail;
         $("#thumbnail_img").attr('src',current_thumb)
 
 
