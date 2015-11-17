@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
+    <title>DSA OSD Annotations DevEnv</title>
+    
+
+  <!-- Include Jquery and Jquery UI from CDN -->
+  
+      <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://code.jquery.com/ui/1.11.4/themes/start/jquery-ui.css" />
+  
+    <!-- Include Bootstrap from CDN -->
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+ 
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    
+  <!--
+   // <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery-ui.min.css" />
+    // <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery-ui.theme.css" />
+    // <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery-ui.structure.css" />
+    // <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery.dataTables.css" />
+    // <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
+    // <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
+    // <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    // <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+    // <script src="js/bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.js"></script>
+    // <script src="js/openseadragon_setup_functions.js"></script>
+    // <script src="js/colornames_to_hex_hash.js"></script>
+    // <script src="js/mousetrap.min.js"></script>
+    // <script type="text/javascript" src="js/annotations.js"></script>
+    // <script type="text/javascript" src="js/annotationState_control_functions.js"></script>
+    // <script type="text/javascript" src="js/bootstrap-switch.js"></script>
+    // <script type="text/javascript" src="js/colornames_to_hex_hash.js"></script>
+    // <script type="text/javascript" src="osd-filters/osd_filters.js"></script>
+        -->
+    <style>
+    body {
+        margin: 0px;
+        padding: 0px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        overflow: hidden;
+    }
+    
+    #cur_color {
+        width: 30px;
+        height: 30px;
+        background-color: #00FF00;
+        border: 2px solid black;
+        display: inline-block;
+        margin-bottom: -15px;
+    }
+    
+    #image_zoomer {
+        width: 100%;
+        height: 600px;
+        color: #333;
+    }
+    
+    #sel_image_frame {
+        /*padding-left: 10px;*/
+        height: 100%;
+    }
+    
+    #sel_image_scroll {
+        overflow: scroll;
+        padding: 5px;
+    }
+    
+    #sel_image {
+        width: 100%;
+        height: 100%;
+    }
+    
+    #sel_patient {
+        margin-top: 10px;
+        padding: 5px;
+    }
+    
+    #dynamic {
+        padding: 5px;
+    }
+    
+    #status_bar {
+        background-color: #666;
+        border-top: 1px solid #999;
+        /*border-bottom: 1px solid #000;*/
+        width: 100%;
+        color: #eee;
+        position: absolute;
+        bottom: -2px;
+        left: 0px;
+        height: 28px;
+        padding: 10px;
+    }
+    
+    #status_label {
+        margin-left: 10px;
+    }
+    
+    #zoom_frame {
+        background-color: #333;
+    }
+    /* code to update datatable
+    dataTables_filter
+*/
+    
+    .dataTables_filter {
+        float: left;
+    }
+    
+    .navbar {
+        margin-bottom: 0px;
+    }
+    
+    .container-fluid {
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .row-fluid[class*="span"] {
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .row-fluid .span9 {
+        width: 75%;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .row-fluid .span3 {
+        width: 25%;
+        margin: 0px;
+        padding: 0px;
+    }
+    </style>
+</head>
+
+<body>
+    <script>
+    base_host = "http://cancer.digitalslidearchive.emory.edu"
+    datagroup_apiurl = base_host + '/api/v1/collections';
+
+        //base_host='';    
+        //Defining urls for data grab functions //This could be changed for testing to other datasets
+    </script>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="#">
+                    <img src="static/imgs/CDSA_Slide_50.png" style="float:left" height="25" width="75" />&emsp;DSA Annotations DevSite </a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3" id="sel_image_frame">
+                <div id="sel_image" class="">
+                    <a class="btn btn-small sel_image_action pull-right">
+                        <span class="icon-fullscreen"></span>
+                    </a>
+                    
+                </div>
+            </div>
+            <div class="span9" id="zoom_frame">
+                <div class="btn-group">
+                    <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse" disabled>
+                    <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
+                    <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse" disabled>
+                    
+                </div>
+                <div id="image_zoomer"></div>
+            </div>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+    <div class="" id="status_bar">Main Status Bar</div>
+    <script>
+    var config;
+    var sel_image_expanded = false;
+    var study_name = [];
+    var thumbs_xml;
+    var thumbs = {};
+    var thumbs_expanded = {};
+    var recent_study_name;
+    var viewer;
+    var annotationState;
+    var pid;
+    var patient_data = {};
+    var temp;
+    var oTable;
+    var current_filename;
+    var current_slide_url;
+    var mousetracker;
+    var osd;
+    var PRECISION = 3;
+
+
+    //consider this slider http://bxslider.com/ content slider
+
+    $(document).ready(function() {
+
+        //create the filter dialog  as a model
+        $("#filter_dialog").dialog({
+            autoOpen: false,
+            width: 'auto'
+        });
+        //Filter dialog only opens on click....
+        $('#show_filter').click(function() {
+            $('#filter_dialog').dialog('open');
+            return false;
+        });
+
+        $("#debug_dialog").dialog({
+            autoOpen: false,
+            width: 'auto'
+        });
+        $("#show_debug").click(function() {
+            $("#debug_dialog").dialog('open');
+            return false;
+        });
+
+        $("#annotation_dialog").dialog({
+            autoOpen: false,
+            width: 'auto'
+        });
+        $("#show_annotator").click(function() {
+            $("#annotation_dialog").dialog('open');
+
+            //annotation_setup_code();
+            console.log('annotation code loaded');
+            return false;
+            //come back here
+        });
+
+   //     $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
+
+    });
+
+    $(function() {
+        // initialize the image viewer and annotation state
+        viewer = OpenSeadragon({
+            id: "image_zoomer",
+            prefixUrl: "images/",
+        });
+
+        viewer.addHandler('open-failed', function(evt) {
+            console.log('tile source opening failed', evt);
+        });
+
+        viewer.addHandler('animation', function() {
+            var bounds = viewer.viewport.getBounds();
+            var message = bounds.x + ':' + bounds.y + ':' + bounds.width + ':' + bounds.height;
+            $('.wsi-toolbar').text(message);
+        });
+
+        var annotationState = window.annotationState = new AnnotationState();
+        annotationState.setSeadragonViewer(viewer);
+        annotation_setup_code(annotationState);
+
+        function showMouse(event) {
+            // getMousePosition() returns position relative to page,
+            // while we want the position relative to the viewer
+            // element. so subtract the difference.
+            var pixel = OpenSeadragon.getMousePosition(event).minus(OpenSeadragon.getElementPosition(viewer.element));
+
+            document.getElementById("mousePixels").innerHTML = toString(pixel, true);
+
+            if (!viewer.isOpen()) {
+                return;
+            }
+
+            var point = viewer.viewport.pointFromPixel(pixel);
+            document.getElementById("mousePoints").innerHTML = toString(point, true);
+        }
+
+        // showMouse doesn't exist, commented this out - jake
+        OpenSeadragon.addEvent(viewer.element, "mousemove", showMouse);
+        mousetracker = new OpenSeadragon.MouseTracker({
+            element: viewer.element,
+            clickTimeThreshold: 50,
+            clickDistThreshold: 50,
+            moveHandler: function(event) {
+                console.log(event.position);
+            }
+        });
+        console.log(mousetracker);
+
+
+        // $('#sel_image_arrow').click(sel_image_expand);
+
+        $('#data_group').change(function() {
+            if (!sel_image_expanded) {
+                //load_thumbs($("#data_group option:selected").val());
+                load_thumbnail_data($("#data_group option:selected").val());
+            } else {
+                load_expanded_thumbnail_data($("#data_group option:selected").val());
+            }
+        });
+
+      
+    });
+
+
+
+
+
+
+  
+
+    function load_image(filename, image_url) {
+
+        if (sel_image_expanded) {
+            $('#sel_image_frame').addClass('span3');
+            $('#sel_image_frame').removeClass('span12');
+
+            $('#zoom_frame').show();
+
+            load_thumbnail_data(recent_study_name);
+            sel_image_expanded = false;
+        }
+
+        annotationState.clearAnnotations();
+        viewer.open(image_url);
+
+        
+        $('#show_filter').removeAttr('disabled');
+        current_filename = filename;
+        current_slide_url = image_url;
+        $('#report_bad_image_btn').removeAttr('disabled');
+
+
+        /// I am now loading the database function here..
+        
+        if (!patient_data.hasOwnProperty(pid)) {
+            var url = 'php/lzhan_fetch.php?pid=' + pid;
+            $.ajax({
+                type: "GET",
+                url: url,
+                error: function() {
+                    console.log('error query db');
+                },
+                success: function(data, textStatus, xhr) {
+                    patient_data[pid] = JSON.parse(data);
+                    $('#query_db_entry').empty();
+                    for (var i = 0; i < patient_data[pid].length; i++) {
+                        $('#query_db_entry').append('<option id="' + i + '" value="' + i + '">' + patient_data[pid][i]['name'] + '</option>');
+                    }
+                    if (patient_data[pid].length > 0) {
+                        query_db(0);
+                    }
+                    $('#query_db').removeAttr('disabled');
+                }
+            });
+        } else {
+            $('#query_db_entry').empty();
+            for (var i = 0; i < patient_data[pid].length; i++) {
+                $('#query_db_entry').append('<option id="' + i + '" value="' + i + '">' + patient_data[pid][i]['name'] + '</option>');
+            }
+            if (patient_data[pid].length > 0) {
+                query_db(0);
+            }
+            $('#query_db').removeAttr('disabled');
+
+        }
+
+    }
+    //  ["TCGA-2H-A9GG-11A-01-TS1", "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?De…29837-2C3F-4C8D-B8C7-A5A77BBB2425.svs.dzi.tif.dzi", "TCGA-2H-A9GG-11A-01-TS1", "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FI…8D-B8C7-A5A77BBB2425.svs.dzi.tif&WID=200&CVT=jpeg"]
+
+  
+
+
+    /*Adding code for a floating debug window... */
+    $('#annotationState_dialog').dialog({
+        autoOpen: false,
+        modal: false,
+        draggable: true,
+        width: 550,
+        height: 375,
+    });
+
+    $('#AnnotationDialogButton').on('click', function() {
+        $('#annotationState_dialog').dialog('open');
+    });
+
+    /* This second debug window displays the color and shape that was selected */
+    $('#annotationControlPanel_dialog').dialog({
+        autoOpen: false,
+        modal: false,
+        draggable: true,
+        width: 575,
+        height: 375,
+    });
+
+    $('#AnnotationControlButton').on('click', function() {
+        $('#annotationControlPanel_dialog').dialog('open');
+    });
+
+
+
+
+    //  window.annotationStateControls = new AnnotationStateControl();
+    </script>
+    <!-- This serves as the landing spot for the SVG color filter code -->
+    <div id="filter_dialog" title="Apply Filters">
+        Filter set will appear here
+    </div>
+    <div id="annotation_dialog">
+    </div>
+    <div id="debug_dialog">
+        <span id="mouse_nav_box">
+            <div id="wsi_toolbar ">
+                <table id="output " style="border:1px solid black; float:right ">
+                    <tr>
+                        <th class="name ">&nbsp;</th>
+                        <th class="value ">Pixels</th>
+                        <th class="value ">Points</th>
+                    </tr>
+                    <tr>
+                        <th>Mouse position</th>
+                        <td id="mousePixels">-</td>
+                        <td id="mousePoints">-</td>
+                    </tr>
+                    <tr>
+                        <th>Image Size</th>
+                        <td id="dziSizePixels">-</td>
+                        <td id="dziSizePoints"></td>
+                    </tr>
+                </table>
+        </span>
+    </div>
+</body>
+
+</html>
