@@ -4,20 +4,27 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
     <title>DSA OSD Annotations DevEnv</title>
-    
-
-  <!-- Include Jquery and Jquery UI from CDN -->
-  
-      <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
+    <!-- Include Jquery and Jquery UI from CDN -->
+    <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="https://code.jquery.com/ui/1.11.4/themes/start/jquery-ui.css" />
-  
     <!-- Include Bootstrap from CDN -->
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
- 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     
-  <!--
+    <!-- Right now building against 2.1.0 -->
+    <script src="/static/js/openseadragon.min.js"></script>
+
+
+    <!-- These are the annotation files in the src directory that serve as the basic for OSD annotations -->
+    <script type="text/javascript"  src="openseadragon_annotations/annotations.js"></script>
+    <script type="text/javascript"  src="openseadragon_annotations/annotationState_control_functions.js"></script>
+    <script type="text/javascript"  src="openseadragon_annotations/openseadragon_setup_functions.js"></script>
+    <script type="text/javascript"  src="openseadragon_annotations/bootstrap-switch.js"></script>
+    <script type="text/javascript"  src="openseadragon_annotations/mousetrap.min.js"></script>
+    <script type="text/javascript"  src="openseadragon_annotations/colornames_to_hex_hash.js"></script>
+   
+    <!--
    // <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery-ui.min.css" />
     // <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery-ui.theme.css" />
     // <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery-ui.structure.css" />
@@ -26,14 +33,11 @@
     // <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
     // <script src="js/bootstrap.min.js" type="text/javascript"></script>
     // <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
-    // <script src="js/bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.js"></script>
-    // <script src="js/openseadragon_setup_functions.js"></script>
+    // 
     // <script src="js/colornames_to_hex_hash.js"></script>
-    // <script src="js/mousetrap.min.js"></script>
-    // <script type="text/javascript" src="js/annotations.js"></script>
-    // <script type="text/javascript" src="js/annotationState_control_functions.js"></script>
-    // <script type="text/javascript" src="js/bootstrap-switch.js"></script>
-    // <script type="text/javascript" src="js/colornames_to_hex_hash.js"></script>
+    // 
+   
+    //
     // <script type="text/javascript" src="osd-filters/osd_filters.js"></script>
         -->
     <style>
@@ -149,8 +153,10 @@
     base_host = "http://cancer.digitalslidearchive.emory.edu"
     datagroup_apiurl = base_host + '/api/v1/collections';
 
-        //base_host='';    
-        //Defining urls for data grab functions //This could be changed for testing to other datasets
+    sample_file_info = { 'filename': 'TCGA-2H-A9GG-11A-01-TS1', 'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?De…29837-2C3F-4C8D-B8C7-A5A77BBB2425.svs.dzi.tif.dzi'}
+
+    //base_host='';    
+    //Defining urls for data grab functions //This could be changed for testing to other datasets
     </script>
     <div class="navbar">
         <div class="navbar-inner">
@@ -167,7 +173,6 @@
                     <a class="btn btn-small sel_image_action pull-right">
                         <span class="icon-fullscreen"></span>
                     </a>
-                    
                 </div>
             </div>
             <div class="span9" id="zoom_frame">
@@ -175,7 +180,6 @@
                     <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse" disabled>
                     <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
                     <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse" disabled>
-                    
                 </div>
                 <div id="image_zoomer"></div>
             </div>
@@ -241,7 +245,10 @@
             //come back here
         });
 
-   //     $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
+
+
+
+        //     $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
 
     });
 
@@ -249,7 +256,7 @@
         // initialize the image viewer and annotation state
         viewer = OpenSeadragon({
             id: "image_zoomer",
-            prefixUrl: "images/",
+            prefixUrl: "static/imgs/",
         });
 
         viewer.addHandler('open-failed', function(evt) {
@@ -265,6 +272,8 @@
         var annotationState = window.annotationState = new AnnotationState();
         annotationState.setSeadragonViewer(viewer);
         annotation_setup_code(annotationState);
+
+        load_image('somefile','someurl');
 
         function showMouse(event) {
             // getMousePosition() returns position relative to page,
@@ -306,7 +315,7 @@
             }
         });
 
-      
+
     });
 
 
@@ -314,24 +323,18 @@
 
 
 
-  
+
 
     function load_image(filename, image_url) {
 
-        if (sel_image_expanded) {
-            $('#sel_image_frame').addClass('span3');
-            $('#sel_image_frame').removeClass('span12');
+       
+        image_url = sample_file_info.filename_url;
 
-            $('#zoom_frame').show();
-
-            load_thumbnail_data(recent_study_name);
-            sel_image_expanded = false;
-        }
 
         annotationState.clearAnnotations();
         viewer.open(image_url);
 
-        
+
         $('#show_filter').removeAttr('disabled');
         current_filename = filename;
         current_slide_url = image_url;
@@ -339,7 +342,7 @@
 
 
         /// I am now loading the database function here..
-        
+
         if (!patient_data.hasOwnProperty(pid)) {
             var url = 'php/lzhan_fetch.php?pid=' + pid;
             $.ajax({
@@ -375,7 +378,7 @@
     }
     //  ["TCGA-2H-A9GG-11A-01-TS1", "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?De…29837-2C3F-4C8D-B8C7-A5A77BBB2425.svs.dzi.tif.dzi", "TCGA-2H-A9GG-11A-01-TS1", "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FI…8D-B8C7-A5A77BBB2425.svs.dzi.tif&WID=200&CVT=jpeg"]
 
-  
+
 
 
     /*Adding code for a floating debug window... */
