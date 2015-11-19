@@ -278,8 +278,8 @@
 						$("<button>").on("click",function(){
 							$(this).data("annot_obj").detach();
 							
-							//annotationState is global object. Find safer way of passing context
-							annotationState.annotations[$(this).data("annot_index")] = null; //setting to null rather than removing to not upset indexing of annotations
+							//TODO find way of not showing annotation based on external flag, changing annotation to null breaks code
+							//annotationState.annotations[$(this).data("annot_index")] = null; //setting to null rather than removing to not upset indexing of annotations
 							$(this).parent().parent().remove();
 						}).html("Remove").data("annot_index",e.index).data("annot_obj",e.annotation)
 					)
