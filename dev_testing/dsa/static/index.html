@@ -168,6 +168,7 @@
                     <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse">
                     <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
                     <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse">
+                    <input type="button" id="show_annotations" value="Annotations" class="btn btn-small btn-inverse">
                 </div>
                 <div id="image_zoomer"></div>
             </div>
@@ -217,7 +218,16 @@
             $("#debug_dialog").dialog('open');
             return false;
         });
-
+		
+		$("#annotation_list_dialog").dialog({
+            autoOpen: false,
+            width: 'auto'
+        });
+         $("#show_annotations").click(function() {
+            $("#annotation_list_dialog").dialog('open');
+            return false;
+        });
+        
         $("#annotation_dialog").dialog({
             autoOpen: false,
             width: 'auto'
@@ -256,7 +266,27 @@
         annotation_setup_code(annotationState);
 
         load_image(sample_file_info);
-
+        
+		$(annotationState).on("annotationAdded",function(e) {
+			$("#annotation_list_table").append(
+				$("<tr>").append(
+					$("<td>").html(e.annotation.data.type)
+				).append(
+					$("<td>").html(e.index+1)
+				).append(
+					$("<td>").append(
+						$("<button>").on("click",function(){
+							$(this).data("annot_obj").detach();
+							
+							//annotationState is global object. Find safer way of passing context
+							annotationState.annotations[$(this).data("annot_index")] = null; //setting to null rather than removing to not upset indexing of annotations
+							$(this).parent().parent().remove();
+						}).html("Remove").data("annot_index",e.index).data("annot_obj",e.annotation)
+					)
+				)
+			);
+		});
+		
         function showMouse(event) {
             // getMousePosition() returns position relative to page,
             // while we want the position relative to the viewer
@@ -338,6 +368,14 @@
         Filter set will appear here
     </div>
     <div id="annotation_dialog"></div>
+    <div id="annotation_list_dialog">
+    	<table id="annotation_list_table" border="5">
+    		<tr>
+    			<th>Type</th>
+    			<th>Index</th>
+    			<th></th>
+    	</table>
+    </div>
     <div id="debug_dialog">
         <span id="mouse_nav_box">
             <div id="wsi_toolbar ">
