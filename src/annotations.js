@@ -32,6 +32,7 @@ $.extend(AnnotationData.prototype, {
 	OPTIONS: {
 		id: null,
 		type: 'unknown',
+		index: 0,
 
 		label: null,
 		points: null,
@@ -775,6 +776,10 @@ $.extend(AnnotationState.prototype, {
 					
 					// stop listening to movement and turn off drawing
 					$el.off('mousemove', onMouseMove);
+					if($(self.annotations).last())
+						self._overlay.data['index'] = $(self.annotations).last().attr('data')['index'] + 1;
+					else
+						self._overlay.data['index'] = 0;
 					self.annotations.push(self._overlay);
 					self._overlay = null;
 					self.setIsDrawing(false, true);
@@ -869,10 +874,15 @@ $.extend(AnnotationState.prototype, {
 	 * @param props optional non-default properties to merge in
 	 */
 	_getAnnotationProperties: function(point, props) {
+		var index;
+		if(this.annotations.length > 0)
+			index = String($(this.annotations).last().attr('data')['index'] + 1);
+		else
+			index = String(0);
 		var defaults = {
 			viewer: this.viewer,
 			data: {
-				label: String(this.annotations.length + 1),
+				label: index,
 				color: this.lineColor,
 				points: [point],
 				annotation_timestamp: new Date().getTime(),
@@ -1007,6 +1017,10 @@ $.extend(AnnotationState.prototype, {
 	 * Adds a new annotation and fires a notification event.
 	 */
 	pushAnnotation: function(annotation) {
+		if(this.annotations.length > 0)
+			annotation.data['index'] = $(this.annotations).last().attr('data')['index'] + 1;
+		else
+			annotation.data['index'] = 0;
 		this.annotations.push(annotation);
 		console.log("added annotation %o", annotation);
 		$(this).trigger({
@@ -1051,7 +1065,8 @@ $.extend(AnnotationState.prototype, {
 	/** Return all the annotation data as value objects. */
 	storeAnnotations: function() {
 		return $.map(this.annotations, function(el, idx) {
-			return el.data.asValueObject();
+			if(el)
+				return el.data.asValueObject();
 		});
 	},
 	

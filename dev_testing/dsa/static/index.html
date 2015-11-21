@@ -267,24 +267,37 @@
 
         load_image(sample_file_info);
         
-		$(annotationState).on("annotationAdded",function(e) {
-			$("#annotation_list_table").append(
+        //Make safer by passing dialog to add to?
+        function addAnnot(annotationState, annot) {
+        	console.log(annot);
+        	$("#annotation_list_table").append(
 				$("<tr>").append(
-					$("<td>").html(e.annotation.data.type)
+					$("<td>").html(annot.data.type)
 				).append(
-					$("<td>").html(e.index+1)
+					$("<td>").html(annot.data.index)
 				).append(
 					$("<td>").append(
 						$("<button>").on("click",function(){
 							$(this).data("annot_obj").detach();
 							
-							//TODO find way of not showing annotation based on external flag, changing annotation to null breaks code
-							//annotationState.annotations[$(this).data("annot_index")] = null; //setting to null rather than removing to not upset indexing of annotations
+							for(i=0;i<annotationState.annotations.length;i++)
+								if(annotationState.annotations[i].data.index == $(this).data("annot_index"))
+									annotationState.annotations[i] = null;
 							$(this).parent().parent().remove();
-						}).html("Remove").data("annot_index",e.index).data("annot_obj",e.annotation)
+						}).html("Remove").data("annot_index",annot.data.index).data("annot_obj",annot)
 					)
 				)
 			);
+		}
+        
+		$(annotationState).on("annotationAdded",function(e) {
+			addAnnot(annotationState, e.annotation);
+		});
+		
+		$(annotationState).on("allAnnotationsChanged",function() {
+			$("#annotation_list_header").siblings().remove();
+			for(var i = 0;i < annotationState.annotations.length;i++)
+				addAnnot(annotationState, annotationState.annotations[i]); 
 		});
 		
         function showMouse(event) {
@@ -370,10 +383,11 @@
     <div id="annotation_dialog"></div>
     <div id="annotation_list_dialog">
     	<table id="annotation_list_table" border="5">
-    		<tr>
+    		<tr id="annotation_list_header">
     			<th>Type</th>
     			<th>Index</th>
     			<th></th>
+    		</tr>
     	</table>
     </div>
     <div id="debug_dialog">
