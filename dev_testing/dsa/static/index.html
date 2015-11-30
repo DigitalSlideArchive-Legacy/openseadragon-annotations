@@ -269,9 +269,8 @@
         
         //Make safer by passing dialog to add to?
         function addAnnot(annotationState, annot) {
-        	console.log(annot);
         	$("#annotation_list_table").append(
-				$("<tr>").append(
+				$("<tr>").attr('id','annot_'+annot.data.index).append(
 					$("<td>").html(annot.data.type)
 				).append(
 					$("<td>").html(annot.data.index)
@@ -279,15 +278,23 @@
 					$("<td>").append(
 						$("<button>").on("click",function(){
 							$(this).data("annot_obj").detach();
-							
 							for(i=0;i<annotationState.annotations.length;i++)
-								if(annotationState.annotations[i].data.index == $(this).data("annot_index"))
-									annotationState.annotations[i] = null;
+								if(annotationState.annotations[i])
+									if(annotationState.annotations[i].data.index == $(this).data("annot_index"))
+										annotationState.annotations[i] = null;
+							if(!annotationState.annotations[annotationState.annotations.length-1])
+								annotationState.annotations.length -= 1;
 							$(this).parent().parent().remove();
 						}).html("Remove").data("annot_index",annot.data.index).data("annot_obj",annot)
 					)
 				)
 			);
+			if(annot.data.type!='poi')
+				$("#annot_"+annot.data.index).append(
+					$("<td>").append(
+						$("<input>").attr('type','text').attr('size',6).attr('maxlength',6)
+					)
+				);
 		}
         
 		$(annotationState).on("annotationAdded",function(e) {
@@ -387,6 +394,7 @@
     			<th>Type</th>
     			<th>Index</th>
     			<th></th>
+    			<th>Color</th>
     		</tr>
     	</table>
     </div>
