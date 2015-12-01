@@ -110,16 +110,16 @@ $.extend(AnnotationStateToolbar.prototype, {
 		element.innerHTML = 
 			'<div id="wsi_toolbar">\n' +
 			'    <div id="wsi_active_shape" class="btn-group drawing_shape" data-toggle="buttons-radio">\n' +
-			'        <button id="circle" type="button" class="btn btn-primary">Circle\n' +
+			'        <button id="circle" type="button" class="btn btn-primary osd_drawctrl">Circle\n' +
 			'            <img src="openseadragon_annotations/drawing_icons/circle.png">\n' +
 			'        </button>\n' +
 			'        <button id="rect" type="button" class="btn btn-primary">Square\n' +
 			'            <img src="openseadragon_annotations/drawing_icons/square.png" </button>\n' +
-			'            <button id="poi" type="button" class="btn btn-primary">Pin\n' +
+			'            <button id="poi" type="button" class="btn btn-primary" style="height:54px">Pin\n' +
 			'                <img src="openseadragon_annotations/drawing_icons/Pin1_Blue.png" </button>\n' +
 			'                <button id="polygon" type="button" class="btn btn-primary">Polygon\n' +
 			'                    <img src="openseadragon_annotations/drawing_icons/polyline_v1.png" </button>\n' +
-			'        <button id="freehand" type="button" class="btn btn-primary">Freehand</button>\n' +
+			'        <button id="freehand" type="button" class="btn btn-primary" style="height:54px">Freehand</button>\n' +
 			'    </div>\n' +
 			'    <div id="wsi_paint_color" class="btn-group paint_color" data-toggle="buttons-radio">\n' +
 			'        <button id="red" type="button" class="btn btn-primary">\n' +
