@@ -313,7 +313,7 @@
                 $("<tr>").attr('id', 'annot_' + annot.data.index).data("annot_index", annot.data.index).data("annot_obj", annot).append(
                     $("<td>").html(annot.data.type)
                 ).append(
-                    $("<td>").html(annot.data.index)
+                    $("<td>").html(annot.data.label)
                 ).append(
                     $("<td>").append(
                         $("<button>").on("click", function() {
@@ -331,31 +331,37 @@
             );
 
             //To change color, only for rectangle and circle as of now
-            if (annot.data.type == 'rect' || annot.data.type == 'circle')
+            //TODO change color names to color codes if needed
+            if (annot.data.type == 'rect' || annot.data.type == 'circle'){
+            	var col;
                 $("#annot_" + annot.data.index).append(
                     $("<td>").append(
-                        $("<input>").attr('type', 'text').attr('size', 6).attr('maxlength', 6).on("focus", function() {
-                            this.oldValue = this.value;
-                        }).on("blur", function() {
-                            if (/[0-9a-f]{6}/i.test(this.value)) {
-                                $(this).parent().parent().data("annot_obj").element.style.borderColor = "#" + this.value;
-                                $(this).parent().parent().data("annot_obj").data.color = "#" + this.value;
-                            } else
-                                this.value = this.oldValue;
-                        }).attr("value", RGBtoHex(annot.element.style.borderColor))
+                        $("<select>").append(
+                        	$("<option>").attr("value","#FF0000").html("&nbsp;&nbsp;").css("background-color","#FF0000")
+                        ).append(
+                        	$("<option>").attr("value","#00FF00").html("&nbsp;&nbsp;").css("background-color","#00FF00")
+                        ).append(
+                        	$("<option>").attr("value","#0000FF").html("&nbsp;&nbsp;").css("background-color","#0000FF")
+                        ).append(
+                        	$("<option>").attr("value","#FFFF00").html("&nbsp;&nbsp;").css("background-color","#FFFF00")
+                        ).on("change", function() {
+                            $(this).parent().parent().data("annot_obj").element.style.borderColor = this.value;
+                            $(this).parent().parent().data("annot_obj").data.color = this.value;
+                            $(this).css("background-color",this.options[this.selectedIndex].style.backgroundColor);
+                        }).css("background-color",annot.data.color)
                     )
                 );
-        }
-
-        function RGBtoHex(str) {
-            var a = str.split("(")[1].split(")")[0];
-            a = a.split(",");
-            var b = a.map(function(x) { //For each array element
-                x = parseInt(x).toString(16); //Convert to a base16 string
-                return (x.length == 1) ? "0" + x : x; //Add zero if we get only one character
-            });
-            b = b.join("");
-            return b;
+            }
+            else
+            	$("#annot_" + annot.data.index).append(
+                    $("<td>")
+                );
+            
+            $("#annot_" + annot.data.index).append(
+            	$("<td>").html(annot.data.browser_info)
+            ).append(
+            	$("<td>").html(new Date(annot.data.annotation_timestamp))
+            );
         }
 
         $(annotationState).on("annotationAdded", function(e) {
@@ -451,10 +457,9 @@
         <table id="annotation_list_table" border="5">
             <tr id="annotation_list_header">
                 <th>Type</th>
-                <th>Index</th>
+                <th>Label</th>
                 <th></th>
                 <th>Color</th>
-                <th>Label</th>
                 <th>Browser</th>
                 <th>TimeStamp</th>
             </tr>
