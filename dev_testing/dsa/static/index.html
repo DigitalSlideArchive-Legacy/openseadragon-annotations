@@ -49,7 +49,8 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        overflow: hidden;
+		overflow:hidden;
+
     }
     
     #cur_color {
@@ -63,7 +64,7 @@
     
     #image_zoomer {
         width: 100%;
-        height: 600px;
+        height: 500px;
         color: #333;
     }
     
@@ -92,6 +93,7 @@
     body {
         /* Margin bottom by footer height */
         margin-bottom: 60px;
+		padding-top: 50px;
     }
     
     .footer {
@@ -154,6 +156,7 @@
         // this is expensive, easier to just save these long term, but oh well.
         //Not sure I need this with the new bootstrap code...
         var nav_height = $(".navbar").height();
+		var footer_height = $("#footer").height();
         var status_bar_height = $('#status_bar').height();
         var select_patient_height = $("#sel_patient").height();
         var left_width = $('#sel_image_frame').width();
@@ -161,9 +164,15 @@
         console.log(nav_height, status_bar_height, select_patient_height, left_width);
 
         $('#sel_image_scroll').height(window.innerHeight - (nav_height + status_bar_height + select_patient_height + 70));
-        $('#zoom_frame').width(window.innerWidth - left_width - 10);
-        $('#image_zoomer').width(window.innerWidth - left_width - 10);
-        $('#image_zoomer').height(window.innerHeight - (nav_height + status_bar_height));
+		
+        //$('#zoom_frame').width(window.innerWidth - left_width - 10);
+		//$('#zoom_frame').text("Window: " + window.innerWidth +" Left: "+ left_width);
+        //$('#image_zoomer').width(window.innerWidth - left_width - 10);
+        //$('#image_zoomer').height(window.innerHeight - (nav_height + status_bar_height));
+		
+
+		//$('#image_zoomer').height(window.innerHeight - (nav_height + status_bar_height + select_patient_height + footer_height) - 200);
+
         $('.openseadragon-container').height(window.innerHeight - (nav_height + status_bar_height));
     }
 
@@ -183,44 +192,49 @@
     //base_host='';    
     //Defining urls for data grab functions //This could be changed for testing to other datasets
     </script>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
+
+	<!-- Fixed navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <a class="navbar-brand" href="#"><img src="static/imgs/CDSA_Slide_50.png" style="float:left;margin-top:-10px" height="40" />DSA Annotations DevSite</a>
+                <a class="navbar-brand" href="#"></a>
+                    <a class="navbar-brand" href="#">
+						<img src="static/imgs/CDSA_Slide_50.png" style="float:left;margin-top:-10px" height="40" />
+						DSA Annotations DevSite
+					</a>
             </div>
         </div>
     </nav>
-    <!-- Begin page content -->
-    <div class="container">
-        
+    
+	<!-- Begin page content -->
+	<div class="container-fluid">
+		<!--Row #1: image thumbnail, image viewer and zoom-->
+		<div class="row">
+			<div class="col-md-3 sidebar" id="sel_image_frame">
+				<div id="sel_image" class="">
+                	Image Selector Should Go Here
+                    <img id="thumbnail_img" src=""/>
+                    <a class="btn btn-small sel_image_action pull-right">
+                    	<span class="icon-fullscreen"></span>
+                    </a>
+				</div>
+			</div>
+
+            <div class="col-md-9" id="zoom_frame">
+            	<div class="btn-group">
+                	<input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse">
+                    <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
+                    <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse">
+                    <input type="button" id="show_annotations" value="Annotations" class="btn btn-small btn-inverse">
+				</div>
+				<div id="image_zoomer"></div>
+			</div>
+		</div>
+	</div>
+
+    <footer class="navbar navbar-default navbar-fixed-bottom">
         <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="col-md-3 sidebar" id="sel_image_frame">
-                    <div id="sel_image" class="">
-                        Image Selector Should Go Here
-                        <img id="thumbnail_img" src="">
-                        <a class="btn btn-small sel_image_action pull-right">
-                            <span class="icon-fullscreen"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-9" id="zoom_frame">
-                    <div class="btn-group">
-                        <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse">
-                        <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
-                        <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse">
-                        <input type="button" id="show_annotations" value="Annotations" class="btn btn-small btn-inverse">
-                    </div>
-                    <div id="image_zoomer"></div>
-                </div>
-            </div>
-        </div>
- </div>
-    <footer class="footer">
-        <div class="container">
-            <p class="text-muted">Place sticky footer content here.</p>
+            Place sticky footer content here.
         </div>
     </footer>
    
@@ -285,7 +299,7 @@
     });
 
     $(function() {
-        // initialize the image viewer and annotation state
+		// initialize the image viewer and annotation state
         viewer = OpenSeadragon({
             id: "image_zoomer",
             prefixUrl: "static/imgs/",

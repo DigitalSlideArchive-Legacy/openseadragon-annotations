@@ -12,7 +12,7 @@ app = Flask('dsa')
 
 @app.route('/')
 def root():
-    return app.send_static_file('index.html')
+    return app.send_static_file('index2.html')
 
 ## adding decorators to allow cross origin access
 

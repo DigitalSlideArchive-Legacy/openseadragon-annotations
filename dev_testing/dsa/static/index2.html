@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DSA OSD Annotations DevEnv</title>
+    <!-- Include Jquery and Jquery UI from CDN -->
+    <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg==" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://code.jquery.com/ui/1.11.4/themes/start/jquery-ui.css" />
+    
+	<!-- Include Bootstrap from CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    
+    <link href="openseadragon_annotations/bootstrap-switch.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="static/bower_components/openseadragon-annotations/dist/openseadragon-annotations.min.js"></script> 
+
+    <!-- Right now building against 2.1.0 -->
+    <script src="/static/js/openseadragon.min.js"></script>
+
+    <!-- These are the annotation files in the src directory that serve as the basic for OSD annotations -->
+    <script type="text/javascript" src="openseadragon_annotations/annotations.js"></script>
+    <script type="text/javascript" src="openseadragon_annotations/annotationState_control_functions.js"></script>
+    <script type="text/javascript" src="openseadragon_annotations/openseadragon_setup_functions.js"></script>
+    <script type="text/javascript" src="openseadragon_annotations/bootstrap-switch.js"></script>
+    <script type="text/javascript" src="openseadragon_annotations/mousetrap.min.js"></script>
+    <script type="text/javascript" src="openseadragon_annotations/colornames_to_hex_hash.js"></script>
+
+	<!--Custom CDSA function-->
+	<script src="/static/js/dsa.js"></script>
+	<link href="static/css/dsa.css" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+    base_host = "http://cancer.digitalslidearchive.emory.edu"
+    datagroup_apiurl = base_host + '/api/v1/collections';
+
+    sample_file_info = {
+        'filename': 'TCGA-2H-A9GG-11A-01-TS1',
+        'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
+        'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
+    }
+    </script>
+
+	<!-- Fixed navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"></a>
+                    <a class="navbar-brand" href="#">
+						<img src="static/imgs/CDSA_Slide_50.png" style="float:left;margin-top:-10px" height="40" />
+						DSA Annotations DevSite
+					</a>
+            </div>
+        </div>
+    </nav>
+    
+	<!-- Begin page content -->
+	<div class="container-fluid full-height">
+		<!--Row #1: image thumbnail, image viewer and zoom-->
+		<div class="row full-height">
+			<div class="col-md-3">
+				<div class="row">
+					<div class="col-md-12">
+						<img id="thumbnail_img" src=""/>
+					</div>
+				</div>
+
+				<div class="row top_buffer">
+					<div class="col-md-12">
+						<div class="panel-group" id="accordion">
+						  <div class="panel panel-default">
+							<div class="panel-heading">
+							  <h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+								Draw Tools</a>
+							  </h4>
+							</div>
+							<div id="collapse1" class="panel-collapse collapse in">
+							  <div class="panel-body">p1</div>
+							</div>
+						  </div>
+						  <div class="panel panel-default">
+							<div class="panel-heading">
+							  <h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+								Debug Info</a>
+							  </h4>
+							</div>
+							<div id="collapse2" class="panel-collapse collapse">
+							  <div class="panel-body">p2</div>
+							</div>
+						  </div>
+						  <div class="panel panel-default">
+							<div class="panel-heading">
+							  <h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+								Annotations</a>
+							  </h4>
+							</div>
+							<div id="collapse3" class="panel-collapse collapse">
+							  <div class="panel-body">p3</div>
+							</div>
+						  </div>
+							 <div class="panel panel-default">
+							<div class="panel-heading">
+							  <h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+								Filters</a>
+							  </h4>
+							</div>
+							<div id="collapse3" class="panel-collapse collapse">
+							  <div class="panel-body">p3</div>
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+            <div class="col-md-9 full-height">
+            	<div id="image_viewer"></div>
+			</div>
+		</div>
+	</div>
+
+    <footer class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            Place sticky footer content here.
+        </div>
+    </footer>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	dsa.image.loadThumbnail(sample_file_info);
+	dsa.image.initViewer(sample_file_info);
+});
+</script>
+
+</body>
+
+</html>
