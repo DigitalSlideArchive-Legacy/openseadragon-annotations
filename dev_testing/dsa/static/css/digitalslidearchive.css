@@ -26,3 +26,7 @@ body {
 .top_buffer{ 
 	margin-top:20px; 
 }
+
+.btn-primary img{
+	width: 20px;
+}

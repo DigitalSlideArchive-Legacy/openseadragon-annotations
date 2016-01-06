@@ -271,13 +271,13 @@ $.extend(AnnotationOverlay.prototype, {
 		this.element = this.createElement();
 		this.labelelement = this.createLabelElement();
 		$(this.labelelement).text(this.data.label).appendTo(this.element);
-		viewer.drawer.addOverlay(this.element, this.EMPTY_RECT);
+		viewer.addOverlay(this.element, this.EMPTY_RECT);
 		this.redraw();
 	},
 
 	detach: function() {
 		if( !this.viewer ) return;
-		this.viewer.drawer.removeOverlay(this.element);
+		this.viewer.removeOverlay(this.element);
 		this.viewer = this.element = this.labelelement = null;
 		this.cleanup();
 	},
@@ -292,7 +292,7 @@ $.extend(AnnotationOverlay.prototype, {
 			rect = new OpenSeadragon.Rect(
 				bounds.x, bounds.y, bounds.width, bounds.height);
 		}
-		this.viewer.drawer.updateOverlay(this.element, rect);
+		this.viewer.updateOverlay(this.element, rect);
 	},
 	
 	redraw: function() {

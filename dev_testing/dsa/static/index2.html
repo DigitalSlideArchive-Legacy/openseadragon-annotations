@@ -16,11 +16,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     
-    <link href="openseadragon_annotations/bootstrap-switch.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="static/bower_components/openseadragon-annotations/dist/openseadragon-annotations.min.js"></script> 
-
-    <!-- Right now building against 2.1.0 -->
-    <script src="/static/js/openseadragon.min.js"></script>
+	<!-- Right now building against 2.1.0 -->
+    <script src="/static/js/openseadragon/openseadragon.min.js"></script>
+	<script src="/static/js/openseadragon/openseadragon-scalebar.js"></script>
+	<script src="/static/js/openseadragon/openseadragon-imaginghelper.min.js"></script>
 
     <!-- These are the annotation files in the src directory that serve as the basic for OSD annotations -->
     <script type="text/javascript" src="openseadragon_annotations/annotations.js"></script>
@@ -31,8 +30,11 @@
     <script type="text/javascript" src="openseadragon_annotations/colornames_to_hex_hash.js"></script>
 
 	<!--Custom CDSA function-->
-	<script src="/static/js/dsa.js"></script>
-	<link href="static/css/dsa.css" rel="stylesheet">
+	<script src="/static/js/digitalslidearchive/digitalslidearchive.js"></script>
+	<script src="/static/js/digitalslidearchive/viewer.js"></script>
+	<script src="/static/js/digitalslidearchive/annotations.js"></script>
+
+	<link href="static/css/digitalslidearchive.css" rel="stylesheet">
 </head>
 
 <body>
@@ -74,6 +76,8 @@
 				<div class="row top_buffer">
 					<div class="col-md-12">
 						<div class="panel-group" id="accordion">
+
+						<!--Panel #1: Draw tools-->
 						  <div class="panel panel-default">
 							<div class="panel-heading">
 							  <h4 class="panel-title">
@@ -82,9 +86,11 @@
 							  </h4>
 							</div>
 							<div id="collapse1" class="panel-collapse collapse in">
-							  <div class="panel-body">p1</div>
+							  <div class="panel-body" id="annotation_dialog"></div>
 							</div>
 						  </div>
+
+						<!--Panel #2: Debug info-->
 						  <div class="panel panel-default">
 							<div class="panel-heading">
 							  <h4 class="panel-title">
@@ -93,9 +99,13 @@
 							  </h4>
 							</div>
 							<div id="collapse2" class="panel-collapse collapse">
-							  <div class="panel-body">p2</div>
+							  <div class="panel-body">p2
+
+							</div>
 							</div>
 						  </div>
+
+						<!--Panel #3: Annotation list-->
 						  <div class="panel panel-default">
 							<div class="panel-heading">
 							  <h4 class="panel-title">
@@ -104,9 +114,23 @@
 							  </h4>
 							</div>
 							<div id="collapse3" class="panel-collapse collapse">
-							  <div class="panel-body">p3</div>
+							  <div class="panel-body" id="annotation_list_dialog">
+								<table id="annotation_list_table" border="5">
+								<tr id="annotation_list_header">
+									<th>Type</th>
+									<th>Label</th>
+									<th></th>
+									<th>Color</th>
+									<th>Browser</th>
+									<th>TimeStamp</th>
+								</tr>
+							</table>
+
+							</div>
 							</div>
 						  </div>
+
+						<!--Panel #1: Filters-->
 							 <div class="panel panel-default">
 							<div class="panel-heading">
 							  <h4 class="panel-title">
@@ -130,19 +154,22 @@
 		</div>
 	</div>
 
-    <footer class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container-fluid">
-            Place sticky footer content here.
-        </div>
-    </footer>
-
 <script type="text/javascript">
 $(document).ready(function() {
-	dsa.image.loadThumbnail(sample_file_info);
-	dsa.image.initViewer(sample_file_info);
+	var dsaView = new DigitalSlideArchive.Viewer();
+	dsaView.loadThumbnail(sample_file_info);
+	var viewer = dsaView.init(sample_file_info);
+
+	dsaAnnot = DigitalSlideArchive.Annotations();
+	annotationState = dsaAnnot.init(viewer);
+});
+
+$(function() {
+	$(annotationState).on("annotationAdded", function(e) {
+		dsaAnnot.display(annotationState, e.annotation);
+	});	
 });
 </script>
 
 </body>
-
 </html>
