@@ -53,7 +53,8 @@ $.extend(AnnotationData.prototype, {
 		ontology_or_termset_id: null,
 		browser_info: null,
 		markup_text: null,
-		addl_notes: null
+		addl_notes: null,
+		slide_id: null
 	},
 		
 	/** If positive, limit the number of points to maxPoints. */
@@ -887,6 +888,7 @@ $.extend(AnnotationState.prototype, {
 				points: [point],
 				annotation_timestamp: new Date().getTime(),
 				markup_for: this.markupFor,
+				slide_id: $("#image_viewer").attr("slide-id")
 				// add any other common properties here
 			}
 		};

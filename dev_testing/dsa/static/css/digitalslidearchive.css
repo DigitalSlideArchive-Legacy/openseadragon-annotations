@@ -19,8 +19,12 @@ body {
 	height:100%;
 }
 
+#img_thumbnails{
+	padding-top:10px;
+}
+
 #accordion{
-	width:200px;
+	width:250px;
 }
 
 .top_buffer{ 
@@ -30,3 +34,13 @@ body {
 .btn-primary img{
 	width: 20px;
 }
+
+.annot_delete_icon{
+	width:20px;
+}
+
+.panel-scroll {
+    max-height: 400px;
+	overflow: hidden;
+	overflow-y: auto;
+  }

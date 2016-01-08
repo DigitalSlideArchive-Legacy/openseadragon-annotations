@@ -17,9 +17,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     
 	<!-- Right now building against 2.1.0 -->
+	<script src="/static/js/openseadragon/knockout-3.0.0.js"></script>
     <script src="/static/js/openseadragon/openseadragon.min.js"></script>
 	<script src="/static/js/openseadragon/openseadragon-scalebar.js"></script>
 	<script src="/static/js/openseadragon/openseadragon-imaginghelper.min.js"></script>
+	<script src="/static/js/openseadragon/openseadragon-viewerinputhook.min.js"></script>
 
     <!-- These are the annotation files in the src directory that serve as the basic for OSD annotations -->
     <script type="text/javascript" src="openseadragon_annotations/annotations.js"></script>
@@ -29,11 +31,6 @@
     <script type="text/javascript" src="openseadragon_annotations/mousetrap.min.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/colornames_to_hex_hash.js"></script>
 
-	<!--Custom CDSA function-->
-	<script src="/static/js/digitalslidearchive/digitalslidearchive.js"></script>
-	<script src="/static/js/digitalslidearchive/viewer.js"></script>
-	<script src="/static/js/digitalslidearchive/annotations.js"></script>
-
 	<link href="static/css/digitalslidearchive.css" rel="stylesheet">
 </head>
 
@@ -42,11 +39,20 @@
     base_host = "http://cancer.digitalslidearchive.emory.edu"
     datagroup_apiurl = base_host + '/api/v1/collections';
 
-    sample_file_info = {
-        'filename': 'TCGA-2H-A9GG-11A-01-TS1',
-        'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
-        'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
-    }
+    slides = [
+		{'id': 'TCGA-2H-A9GG-11A-01-TS1',
+         'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
+         'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
+		},
+		{'id': 'TCGA-2H-A9GG-11A-01-TS2',
+         'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
+         'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
+		},
+		{'id': 'TCGA-2H-A9GG-11A-01-TS2',
+         'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
+         'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
+		}
+		]
     </script>
 
 	<!-- Fixed navbar -->
@@ -68,14 +74,12 @@
 		<div class="row full-height">
 			<div class="col-md-3">
 				<div class="row">
-					<div class="col-md-12">
-						<img id="thumbnail_img" src=""/>
-					</div>
+					<div class="col-md-12" id="img_thumbnails"></div>
 				</div>
 
 				<div class="row top_buffer">
 					<div class="col-md-12">
-						<div class="panel-group" id="accordion">
+						<div class="panel-group  panel-scroll" id="accordion">
 
 						<!--Panel #1: Draw tools-->
 						  <div class="panel panel-default">
@@ -99,8 +103,165 @@
 							  </h4>
 							</div>
 							<div id="collapse2" class="panel-collapse collapse">
-							  <div class="panel-body">p2
-
+							  <div class="panel-body">
+								<div class="navbar-inner output-container" data-bind="with: outputVM" >
+                                <div class="propcontainer">
+                                    <span>Image Width:</span><span data-bind="text: haveImage() ? imgWidth().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Image Height:</span><span data-bind="text: haveImage() ? imgHeight().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Image Aspect Ratio (w/h):</span><span data-bind="text: haveImage() ? imgAspectRatio().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Min Zoom Factor:</span><span data-bind="text: haveImage() ? minZoom().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Max Zoom Factor:</span><span data-bind="text: haveImage() ? maxZoom().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">OSD Viewport</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getContainerSize().x:</span><span data-bind="text: haveImage() ? OsdContainerWidth().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getContainerSize().y:</span><span data-bind="text: haveImage() ? OsdContainerHeight().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getZoom():</span><span data-bind="text: haveImage() ? OsdZoom().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().x:</span><span data-bind="text: haveImage() ? OsdBoundsX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().y:</span><span data-bind="text: haveImage() ? OsdBoundsY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().width:</span><span data-bind="text: haveImage() ? OsdBoundsWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().height:</span><span data-bind="text: haveImage() ? OsdBoundsHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">OSD MouseTracker</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getMousePosition().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getMousePosition().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getElementOffset().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdElementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getElementOffset().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdElementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getMouseRelative().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getMouseRelative().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">Zoom and Pan</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>zoomFactor:</span><span data-bind="text: haveImage() ? zoomFactor().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportWidth:</span><span data-bind="text: haveImage() ? viewportWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportHeight:</span><span data-bind="text: haveImage() ? viewportHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportOrigin.x:</span><span data-bind="text: haveImage() ? viewportOriginX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportOrigin.y:</span><span data-bind="text: haveImage() ? viewportOriginY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportCenter.x:</span><span data-bind="text: haveImage() ? viewportCenterX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportCenter.y:</span><span data-bind="text: haveImage() ? viewportCenterY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">Coordinate Conversions (screen/data)</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse X:</span><span data-bind="text: (haveImage() && haveMouse()) ? mousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? mousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Element X:</span><span data-bind="text: (haveImage() && haveMouse()) ? elementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Element Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? elementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse Relative X:</span><span data-bind="text: (haveImage() && haveMouse()) ? mouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse Relative Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? mouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToLogicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToLogicalX().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToLogicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToLogicalY().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToPhysicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? logicalToPhysicalX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToPhysicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? logicalToPhysicalY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToDataX():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToDataX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToDataY():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToDataY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToPhysicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? dataToPhysicalX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToPhysicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? dataToPhysicalY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">Coordinate Conversions (data/data)</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataX() (Top Left):</span><span data-bind="text: haveImage() ? logicalToDataTLX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataY() (Top Left):</span><span data-bind="text: haveImage() ? logicalToDataTLY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataX() (Bottom Right):</span><span data-bind="text: haveImage() ? logicalToDataBRX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataY() (Bottom Right):</span><span data-bind="text: haveImage() ? logicalToDataBRY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalX() (Top Left):</span><span data-bind="text: haveImage() ? dataToLogicalTLX().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalY() (Top Left):</span><span data-bind="text: haveImage() ? dataToLogicalTLY().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalX() (Bottom Right):</span><span data-bind="text: haveImage() ? dataToLogicalBRX().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalY() (Bottom Right):</span><span data-bind="text: haveImage() ? dataToLogicalBRY().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                            </div>
 							</div>
 							</div>
 						  </div>
@@ -114,18 +275,17 @@
 							  </h4>
 							</div>
 							<div id="collapse3" class="panel-collapse collapse">
-							  <div class="panel-body" id="annotation_list_dialog">
-								<table id="annotation_list_table" border="5">
-								<tr id="annotation_list_header">
+							  <div class="panel-body">
+								<table class="table table-striped">
+								<thead>
+								  <tr>
 									<th>Type</th>
-									<th>Label</th>
-									<th></th>
 									<th>Color</th>
-									<th>Browser</th>
-									<th>TimeStamp</th>
-								</tr>
-							</table>
-
+									<th></th>
+								  </tr>
+								</thead>
+								<tbody id="annotation_list_table"></tbody>
+							  </table>
 							</div>
 							</div>
 						  </div>
@@ -149,27 +309,12 @@
 			</div>
 
             <div class="col-md-9 full-height">
-            	<div id="image_viewer"></div>
+            	<div id="image_viewer" slide-id=""></div>
 			</div>
 		</div>
 	</div>
 
-<script type="text/javascript">
-$(document).ready(function() {
-	var dsaView = new DigitalSlideArchive.Viewer();
-	dsaView.loadThumbnail(sample_file_info);
-	var viewer = dsaView.init(sample_file_info);
-
-	dsaAnnot = DigitalSlideArchive.Annotations();
-	annotationState = dsaAnnot.init(viewer);
-});
-
-$(function() {
-	$(annotationState).on("annotationAdded", function(e) {
-		dsaAnnot.display(annotationState, e.annotation);
-	});	
-});
-</script>
-
+<script src="/static/js/digitalslidearchive/dsa-viewer.js"></script>
+<script src="/static/js/digitalslidearchive/dsa-annotations.js"></script>
 </body>
 </html>

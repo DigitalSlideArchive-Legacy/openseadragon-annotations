@@ -109,7 +109,7 @@ $.extend(AnnotationStateToolbar.prototype, {
 	_inject: function(element) {
 		element.innerHTML = 
 			'<div id="wsi_toolbar">\n' +
-			'    <div id="wsi_active_shape" class="btn-group drawing_shape" data-toggle="buttons-radio">\n' +
+			'    <div id="wsi_active_shape" class="btn-group drawing_shape" data-toggle="buttons-radio" style="padding-bottom:5px">\n' +
 			'        <button id="circle" type="button" class="btn btn-primary osd_drawctrl">\n' +
 			'            <img src="openseadragon_annotations/drawing_icons/circle.png">\n' +
 			'        </button>\n' +
@@ -117,28 +117,28 @@ $.extend(AnnotationStateToolbar.prototype, {
 			'            <img src="openseadragon_annotations/drawing_icons/square.png" /></button>\n' +
 			'		<button id="polygon" type="button" class="btn btn-primary">\n' +
 			'                    <img src="openseadragon_annotations/drawing_icons/polyline_v1.png"/> </button>\n' +
-			'            <button id="poi" type="button" class="btn btn-primary" style="height:30px">Pin\n' +
-			'                <img src="openseadragon_annotations/drawing_icons/Pin1_Blue.png" </button>\n' +              
-			'        <button id="freehand" type="button" class="btn btn-primary" style="height:30px">Freehand</button>\n' +
+			'            <button id="poi" type="button" class="btn btn-primary" style="height:35px">\n' +
+			'                <img src="openseadragon_annotations/drawing_icons/Pin1_Blue.png"/></button>\n' +              
+			'        <!--button id="freehand" type="button" class="btn btn-primary" style="height:30px">Freehand</button-->\n' +
 			'    </div>\n' +
 			'    <div id="wsi_paint_color" class="btn-group paint_color" data-toggle="buttons-radio">\n' +
 			'        <button id="red" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:8px solid red"></div>\n' +
+			'            <div style="border:10px solid red"></div>\n' +
 			'        </button>\n' +
 			'        <button id="green" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:8px solid green"></div>\n' +
+			'            <div style="border:10px solid green"></div>\n' +
 			'        </button>\n' +
 			'        <button id="blue" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:8px solid blue"></div>\n' +
+			'            <div style="border:10px solid blue"></div>\n' +
 			'        </button>\n' +
 			'        <button id="yellow" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:8px solid yellow"></div>\n' +
+			'            <div style="border:10px solid yellow"></div>\n' +
 			'        </button>\n' +
 			'    </div>\n' +
 			'\n' +
-			'    <span id="cur_color_span">Current Color:\n' +
+			'    <!--span id="cur_color_span">Current Color:\n' +
 			'        <span id="cur_color"></span>\n' +
-			'    </span>\n' +
+			'    </span-->\n' +
 			'\n' +
 			'    Drawing Enabled:\n' +
 			'    <div id="drawing_switch" style="height:25px" class="switch drawing_switch" data-on="danger" data-off="warning">\n' +

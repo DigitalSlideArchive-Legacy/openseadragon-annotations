@@ -1,13 +1,19 @@
 /*****************************************************
 * DSA annotations handling module
 *****************************************************/
-DigitalSlideArchive.Annotations = function(){
-	init = function(viewer){
+var DSAAnnotations = (function(){
+	
+	$(document).ready(function() {	
+		var viewer = DSAViewer.getViewer();
 		var annotationState = window.annotationState = new AnnotationState();
 		annotationState.setSeadragonViewer(viewer);
 		annotation_setup_code(annotationState);
-		return annotationState;
-	},
+	
+	
+		$(annotationState).on("annotationAdded", function(e) {
+    		display(annotationState, e.annotation);
+		});
+	});
 
 	save = function(){
 
@@ -18,23 +24,10 @@ DigitalSlideArchive.Annotations = function(){
 	},
 
 	display = function(annotationState, annot){
+		//show overview of the annotations in the bootstrap accordion
 		$("#annotation_list_table").append(
         	$("<tr>").attr('id', 'annot_' + annot.data.index).data("annot_index", annot.data.index).data("annot_obj", annot).append(
-        		$("<td>").html(annot.data.type)).append(
-					$("<td>").html(annot.data.label)).append(
-						$("<td>").append(
-                        	$("<button>").on("click", function() {
-                            	$(this).parent().parent().data("annot_obj").detach();
-                            		for (i = 0; i < annotationState.annotations.length; i++)
-                                		if (annotationState.annotations[i])
-                                    		if (annotationState.annotations[i].data.index == $(this).parent().parent().data("annot_index"))
-                                        		annotationState.annotations[i] = null;
-                            			if (!annotationState.annotations[annotationState.annotations.length - 1])
-                                			annotationState.annotations.length -= 1;
-                            			$(this).parent().parent().remove();
-                        }).html("Remove")
-                    )
-                )
+        		$("<td>").html(annot.data.type + " (" + annot.data.label + ")"))
             );
 
 			            //To change color, only for rectangle and circle as of now
@@ -63,16 +56,27 @@ DigitalSlideArchive.Annotations = function(){
             	$("#annot_" + annot.data.index).append(
                     $("<td>")
                 );
-            
-            $("#annot_" + annot.data.index).append(
-            	$("<td>").html(annot.data.browser_info)
-            ).append(
-            	$("<td>").html(new Date(annot.data.annotation_timestamp))
-            );
+
+			$("#annot_" + annot.data.index).append(
+				$("<td>").append(
+                	$("<img/>").on("click", function() {
+                            	$(this).parent().parent().data("annot_obj").detach();
+								$("#annotfull_" + $(this).parent().parent().data("annot_index")).remove();
+                            		for (i = 0; i < annotationState.annotations.length; i++)
+                                		if (annotationState.annotations[i])
+                                    		if (annotationState.annotations[i].data.index == $(this).parent().parent().data("annot_index"))
+                                        		annotationState.annotations[i] = null;
+                            			if (!annotationState.annotations[annotationState.annotations.length - 1])
+                                			annotationState.annotations.length -= 1;
+                            			$(this).parent().parent().remove();
+					}).attr({src:"openseadragon_annotations/drawing_icons/delete.png"}).addClass("annot_delete_icon")
+				)
+			);
 	};
 
 	return{
 		init: init,
-		display: display
+		display: display,
+		getAnnotationState: function() {return annotationState;}
 	}	
-};
+}(DSAViewer.getViewer(), window));
