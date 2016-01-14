@@ -11,50 +11,35 @@ var AnnotationTypes = {},
 	OverlayTypes = {};
 
 
-function AnnotationData(options) { this._init(options || {}); }
+function markup(options) { this._init(options || {}); }
 
 /** Instantiate a copy from storage data. */
-AnnotationData.fromValueObject = function(obj) {
+markup.fromValueObject = function(obj) {
 	var result;
 	if( AnnotationTypes.hasOwnProperty(obj.type) )
 		result = new AnnotationTypes[obj.type](obj);
 	else
-		result = new AnnotationData(obj);
+		result = new markup(obj);
 	return result;
 };
-
 
 //TODO: To support setting properties on annotations when they are pushed e.g. zoom_level
 // 1. Add the keys for the properties to the OPTIONS so they are white-listed for serialization
 // 2. Create a common properties field that is an array of properties to add to each annotation data
 // 3. Provide a public getter and setter for the property so users of the annotation state can specify the common properties for the next annotation
-$.extend(AnnotationData.prototype, {
+$.extend(markup.prototype, {
 	OPTIONS: {
 		id: null,
-		type: 'unknown',
-		index: 0,
-
-		label: null,
-		points: null,
-
-		color: '#FF00FF',
-		alpha: 1,
-		filled: false,
-		closed: false,
-		zoom_level: null,
-		
-		markup_for: null,
-		
-// 		markup_image_name: null,
-// 		markup_image_md5: null,
-		server_id: null,
-		annotation_timestamp: null,
-		annotation_revision_id: null,
-		ontology_or_termset_id: null,
-		browser_info: null,
-		markup_text: null,
-		addl_notes: null,
-		slide_id: null
+		type: null,
+		name: {
+			value: null,
+			visibility: null,
+			fontSize: null
+		},
+		lineColor: null,
+		lineWidth: null,
+		opacity: null,
+		points: null
 	},
 		
 	/** If positive, limit the number of points to maxPoints. */
@@ -154,15 +139,15 @@ function PointOfInterestData(options) {
 	this._init(options);
 }
 AnnotationTypes['poi'] = PointOfInterestData;
-$.extend(PointOfInterestData.prototype, AnnotationData.prototype, {
-	OPTIONS: $.extend({}, AnnotationData.prototype.OPTIONS, {
+$.extend(PointOfInterestData.prototype, markup.prototype, {
+	OPTIONS: $.extend({}, markup.prototype.OPTIONS, {
 		imgsrc: null,
 		rectsize: 0.025
 	}),
 	
 	maxPoints: 1,
 	
-	/** 
+	/**
 	 * Return the bounds, computing if necessary or request by <code>recompute</code>.
 	 * @param {boolean} recompute to force bounds to be recomputed
 	 * @return {null} the bounds ({x,y,width,height}) or <code>null</code> if no points
@@ -184,7 +169,7 @@ function RectangleData(options) {
 	this._init(options);
 }
 AnnotationTypes['rect'] = RectangleData;
-$.extend(RectangleData.prototype, AnnotationData.prototype, {
+$.extend(RectangleData.prototype, markup.prototype, {
 	maxPoints: 2
 });
 
@@ -195,7 +180,7 @@ function CircleData(options) {
 	this._init(options);
 }
 AnnotationTypes['circle'] = CircleData;
-$.extend(CircleData.prototype, AnnotationData.prototype, {
+$.extend(CircleData.prototype, markup.prototype, {
 	maxPoints: 2
 });
 
@@ -208,7 +193,7 @@ function PolygonData(options) {
 }
 AnnotationTypes['polygon'] = PolygonData;
 AnnotationTypes['freehand'] = PolygonData;
-$.extend(PolygonData.prototype, AnnotationData.prototype);
+$.extend(PolygonData.prototype, markup.prototype);
 
 //
 // END data objects
@@ -225,7 +210,7 @@ AnnotationOverlay.fromValueObject = function(obj) {
 	if( OverlayTypes.hasOwnProperty(obj.type) )
 		result = new OverlayTypes[obj.type]({data: obj});
 	else
-		result = new AnnotationData({data: obj});
+		result = new markup({data: obj});
 	return result;
 };
 $.extend(AnnotationOverlay.prototype, {
@@ -233,9 +218,9 @@ $.extend(AnnotationOverlay.prototype, {
 	
 	_init: function(options) {
 		if( options.data )
-			this.data = AnnotationData.fromValueObject(options.data);
+			this.data = markup.fromValueObject(options.data);
 		else
-			this.data = AnnotationData.fromValueObject(options);
+			this.data = markup.fromValueObject(options);
 		
 		this.viewer = null;
 		this.element = null;
@@ -438,7 +423,7 @@ $.extend(RectangleOverlay.prototype,
 	},
 	
 	renderTo: function(canvas) {
-// 		var bounds = this.data.getBounds();
+		var bounds = this.data.getBounds();
 		var bounds = this.data.getAbsoluteBounds(canvas.width, canvas.height);
 		var ctx = canvas.getContext('2d');
 		ctx.save();
@@ -896,12 +881,11 @@ $.extend(AnnotationState.prototype, {
 		var defaults = {
 			viewer: this.viewer,
 			data: {
-				label: index,
+				//label: index,
 				color: this.lineColor,
 				points: [point],
-				annotation_timestamp: new Date().getTime(),
-				markup_for: this.markupFor,
-				slide_id: $("#image_viewer").attr("slide-id")
+				//annotation_timestamp: new Date().getTime(),
+				//markup_for: this.markupFor
 				// add any other common properties here
 			}
 		};
@@ -970,7 +954,6 @@ $.extend(AnnotationState.prototype, {
 		this.pushAnnotation(overlay);
 	},
 
-	
 	/** Cancel and remove the current annotation. */
 	cancelAnnotation: function() {
 		if( this._overlay != null ) {
@@ -1050,7 +1033,7 @@ $.extend(AnnotationState.prototype, {
 	 * If modified, ensures the annotation is redrawn and a notification 
 	 * event is fired.
 	 */
-	updateAnnotationData: function(index, values) {
+	updateMarkup: function(index, values) {
 		if( index < 0 || index >= this.annotations.length )
 			throw {message: 'Index out of bounds: ' + String(index)};
 		

@@ -1,3 +1,5 @@
+var selectedImageId = null;
+
 var DSAViewer = (function() {
     var appTitle = 'OpenSeadragon Imaging';
     var appDesc = 'OpenSeadragonImagingHelper / OpenSeadragonViewerInputHook Plugins';
@@ -33,6 +35,9 @@ var DSAViewer = (function() {
     var viewer = OpenSeadragon({
 			id: 'image_viewer',
 			prefixUrl: "static/imgs/",
+			navigatorPosition: "BOTTOM_RIGHT",
+			showNavigator: true,
+			toolbar: "image_viewer_toolbar",
 		    tileSources: slides[0].filename_url
 		});
 
@@ -61,13 +66,14 @@ var DSAViewer = (function() {
         _$svgOverlay = $('.imgvwrSVG');
 
 	//load the slide thumbnails
+	selectedImageId = slides[0].id;
 	slides.forEach(function(slide){
 		$("#img_thumbnails")
 			.append($("<img/>")
-			.attr({src: slide.file_thumbnail, width: "26%"})
+			.attr({src: slide.file_thumbnail})
 			.addClass("img-thumbnail")
 			.click(function(){
-				
+				selectedImageId = slide.id;
 				viewer.open(slide.filename_url);
 				
 			})

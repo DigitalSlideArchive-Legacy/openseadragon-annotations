@@ -11,20 +11,25 @@ var DSAAnnotations = (function(){
 	
 	
 		$(annotationState).on("annotationAdded", function(e) {
-    		display(annotationState, e.annotation);
+    		display(annotationState);
 		});
 	});
 
 	save = function(){
-
+	
 	},
 
 	load = function(){
 
 	},
 
-	display = function(annotationState, annot){
+	display = function(annotationState){
 		//show overview of the annotations in the bootstrap accordion
+		$("#annotation_list_table").html("");
+		
+		for (i = 0; i < annotationState.annotations.length; i++){
+			annot = annotationState.annotations[i];
+
 		$("#annotation_list_table").append(
         	$("<tr>").attr('id', 'annot_' + annot.data.index).data("annot_index", annot.data.index).data("annot_obj", annot).append(
         		$("<td>").html(annot.data.type + " (" + annot.data.label + ")"))
@@ -57,11 +62,23 @@ var DSAAnnotations = (function(){
                     $("<td>")
                 );
 
+			//Append the name input field
+			var layersDropDown = $("<select>");
+			$.each(layers, function(k, v){
+				layersDropDown.append($("<option>").attr("value", k).html(k));
+			});
+
+			$("#annot_" + annot.data.index).append(
+				$("<td>").append(layersDropDown)).append(
+				$("<td>").append($("<input/>").attr({type: "text"}))
+			);
+		
+			//Append the delete button
 			$("#annot_" + annot.data.index).append(
 				$("<td>").append(
                 	$("<img/>").on("click", function() {
                             	$(this).parent().parent().data("annot_obj").detach();
-								$("#annotfull_" + $(this).parent().parent().data("annot_index")).remove();
+								//$("#annotfull_" + $(this).parent().parent().data("annot_index")).remove();
                             		for (i = 0; i < annotationState.annotations.length; i++)
                                 		if (annotationState.annotations[i])
                                     		if (annotationState.annotations[i].data.index == $(this).parent().parent().data("annot_index"))
@@ -72,10 +89,10 @@ var DSAAnnotations = (function(){
 					}).attr({src:"openseadragon_annotations/drawing_icons/delete.png"}).addClass("annot_delete_icon")
 				)
 			);
+		}
 	};
 
 	return{
-		init: init,
 		display: display,
 		getAnnotationState: function() {return annotationState;}
 	}	

@@ -24,7 +24,7 @@
 	<script src="/static/js/openseadragon/openseadragon-viewerinputhook.min.js"></script>
 
     <!-- These are the annotation files in the src directory that serve as the basic for OSD annotations -->
-    <script type="text/javascript" src="openseadragon_annotations/annotations.js"></script>
+    <script type="text/javascript" src="openseadragon_annotations/markup.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/annotationState_control_functions.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/openseadragon_setup_functions.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/bootstrap-switch.js"></script>
@@ -76,35 +76,82 @@
 				<div class="row">
 					<div class="col-md-12" id="img_thumbnails"></div>
 				</div>
+			</div>
 
-				<div class="row top_buffer">
-					<div class="col-md-12">
-						<div class="panel-group  panel-scroll" id="accordion">
+            <div class="col-md-9 full-height">
+				<div id="image_viewer_toolbar" class="toolbar">
+					<span style='float:right;margin:10px 20px 0 0'>
+					| <a href="#draw_tools_modal" data-backdrop="false" data-toggle="modal">Draw tools</a> 
+					| <a href="#annotations_modal" data-backdrop="false" data-toggle="modal">Annotations</a> 
+					| <a href="#viewport_properties_modal" data-backdrop="false" data-toggle="modal">Viewport properties</a> 
+					| <a href="#layers_modal" data-backdrop="false" data-toggle="modal">Layers</a> 
+					</span>
+				</div>
+				<div id="image_viewer"></div>
+			</div>
+		</div>
+	</div>
 
-						<!--Panel #1: Draw tools-->
-						  <div class="panel panel-default">
-							<div class="panel-heading">
-							  <h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-								Draw Tools</a>
-							  </h4>
-							</div>
-							<div id="collapse1" class="panel-collapse collapse in">
-							  <div class="panel-body" id="annotation_dialog"></div>
-							</div>
-						  </div>
+	<!--Draw tools draggable modal-->
+	<div id="draw_tools_modal" class="modal fade">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Draw tools</h4>
 
-						<!--Panel #2: Debug info-->
-						  <div class="panel panel-default">
-							<div class="panel-heading">
-							  <h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-								Debug Info</a>
-							  </h4>
-							</div>
-							<div id="collapse2" class="panel-collapse collapse">
-							  <div class="panel-body">
-								<div class="navbar-inner output-container" data-bind="with: outputVM" >
+		        </div>
+		        <div class="modal-body">
+					<div id="annotation_dialog"></div>
+		        </div>
+		    </div>
+		    <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!--Annotatation draggable modal-->
+	<div id="annotations_modal" class="modal fade">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Annotations</h4>
+
+		        </div>
+		        <div class="modal-body">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Type</th>
+								<th>Color</th>
+								<th>Layer</th>
+								<th>Name</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="annotation_list_table"></tbody>
+					 </table>
+		        </div>
+		    </div>
+		    <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!--Viewport properties draggable modal-->
+	<div id="viewport_properties_modal" class="modal fade">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Viewport properties</h4>
+
+		        </div>
+		        <div class="modal-body">
+		            <div data-bind="with: outputVM" >
                                 <div class="propcontainer">
                                     <span>Image Width:</span><span data-bind="text: haveImage() ? imgWidth().toFixed(0) : '-'" class="propvaluetext"></span>
                                 </div>
@@ -261,60 +308,55 @@
                                 <div class="propcontainer">
                                     <span>dataToLogicalY() (Bottom Right):</span><span data-bind="text: haveImage() ? dataToLogicalBRY().toFixed(4) : '-'" class="propvaluetext"></span>
                                 </div>
-                            </div>
-							</div>
-							</div>
-						  </div>
-
-						<!--Panel #3: Annotation list-->
-						  <div class="panel panel-default">
-							<div class="panel-heading">
-							  <h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-								Annotations</a>
-							  </h4>
-							</div>
-							<div id="collapse3" class="panel-collapse collapse">
-							  <div class="panel-body">
-								<table class="table table-striped">
-								<thead>
-								  <tr>
-									<th>Type</th>
-									<th>Color</th>
-									<th></th>
-								  </tr>
-								</thead>
-								<tbody id="annotation_list_table"></tbody>
-							  </table>
-							</div>
-							</div>
-						  </div>
-
-						<!--Panel #1: Filters-->
-							 <div class="panel panel-default">
-							<div class="panel-heading">
-							  <h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-								Filters</a>
-							  </h4>
-							</div>
-							<div id="collapse3" class="panel-collapse collapse">
-							  <div class="panel-body">p3</div>
-							</div>
-						  </div>
-						</div>
 					</div>
-				</div>
-				
-			</div>
-
-            <div class="col-md-9 full-height">
-            	<div id="image_viewer" slide-id=""></div>
-			</div>
+		        </div>
+		    </div>
+		    <!-- /.modal-content -->
 		</div>
+		<!-- /.modal-dialog -->
 	</div>
+	<!-- /.modal -->
 
+	<!--Draw tools draggable modal-->
+	<div id="layers_modal" class="modal fade">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Annotation layers</h4>
+
+		        </div>
+		        <div class="modal-body">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Description</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="layer_list_table"></tbody>
+					 </table>
+					<h4>Add new layer</h4>
+					<form>
+					  <fieldset class="form-group">
+						<label for="new_layer_name">Name: </label>
+						<input type="text" class="form-control" id="new_layer_name" placeholder="Enter layer name">
+						<label for="new_layer_description">Description: </label>
+						<textarea class="form-control" rows="2" id="new_layer_description"></textarea>
+					  </fieldset>
+					<button type="button" class="btn btn-primary" id="save_layer_btn">Save</button>
+					</form>
+		        </div>
+		    </div>
+		    <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+<script src="/static/js/digitalslidearchive/dsa.js"></script>
 <script src="/static/js/digitalslidearchive/dsa-viewer.js"></script>
 <script src="/static/js/digitalslidearchive/dsa-annotations.js"></script>
+<script src="/static/js/digitalslidearchive/dsa-layers.js"></script>
 </body>
 </html>
