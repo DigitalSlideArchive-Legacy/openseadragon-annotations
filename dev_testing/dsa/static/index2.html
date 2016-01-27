@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="dsa">
 
 <head>
     <meta charset="utf-8">
@@ -24,14 +24,16 @@
 	<script src="/static/js/openseadragon/openseadragon-viewerinputhook.min.js"></script>
 
     <!-- These are the annotation files in the src directory that serve as the basic for OSD annotations -->
-    <script type="text/javascript" src="openseadragon_annotations/markup.js"></script>
+    <script type="text/javascript" src="openseadragon_annotations/annotations.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/annotationState_control_functions.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/openseadragon_setup_functions.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/bootstrap-switch.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/mousetrap.min.js"></script>
     <script type="text/javascript" src="openseadragon_annotations/colornames_to_hex_hash.js"></script>
 
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 	<link href="static/css/digitalslidearchive.css" rel="stylesheet">
+	<link href="static/css/colorpicker.css" rel="stylesheet">
 </head>
 
 <body>
@@ -120,19 +122,33 @@
 		             <h4 class="modal-title">Annotations</h4>
 
 		        </div>
-		        <div class="modal-body">
-					<table class="table table-striped">
+		        <div class="modal-body" ng-controller="markupCtrl" id="annotation_list_ctrl">
+					<table class="table table-striped" ng-show="markups.length">
 						<thead>
 							<tr>
 								<th>Type</th>
 								<th>Color</th>
+								<th></th>
 								<th>Layer</th>
 								<th>Name</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody id="annotation_list_table"></tbody>
+						<tbody>
+							<tr ng-repeat="markup in markups">
+								<td>{{markup.data.type}}</td>
+								<td><input class="form-control" colorpicker ng-model="markup.data.color" type="text" size="7" ng-change="update($index, markup);"/></td>
+								<td><div style="height:20px;width:20px;background-color:{{markup.data.color}};"></div></td>
+								<td><select class="form-control" ng-model="markup.data.layer" ng-options="layer.name for layer in layers">
+									<option>Layer...</option></select>
+								</td>
+								<td><input type="text" class="form-control" ng-model="markup.data.name" ng-blur="update($index, markup)"></td>
+								<td><a href ng-click="remove($index)"><img src="openseadragon_annotations/drawing_icons/delete.png"/></a</td>
+							</tr>
+						</tbody>
 					 </table>
+					<div ng-show="markups.length == 0">No markups have been added</div>
 		        </div>
 		    </div>
 		    <!-- /.modal-content -->
@@ -326,8 +342,9 @@
 		             <h4 class="modal-title">Annotation layers</h4>
 
 		        </div>
-		        <div class="modal-body">
-					<table class="table table-striped">
+		        <div class="modal-body" ng-controller="layersCtrl">
+					<form>
+					<table class="table table-striped" ng-show="layers.length">
 						<thead>
 							<tr>
 								<th>Name</th>
@@ -335,17 +352,15 @@
 								<th></th>
 							</tr>
 						</thead>
-						<tbody id="layer_list_table"></tbody>
+						<tbody>
+    						<tr ng-repeat="layer in layers track by $index">
+      							<td><input type="text" class="form-control" ng-model="layer.name" ng-blur="update($index, layer)"></td>
+								<td><textarea class="form-control" rows="1" ng-model="layer.description" ng-blur="update($index, layer)">{{layer.description}}</textarea></td>
+								<td><a href ng-click="remove($index)"><img src="openseadragon_annotations/drawing_icons/delete.png"/></a></td>
+    						</tr>
+						</tbody>
 					 </table>
-					<h4>Add new layer</h4>
-					<form>
-					  <fieldset class="form-group">
-						<label for="new_layer_name">Name: </label>
-						<input type="text" class="form-control" id="new_layer_name" placeholder="Enter layer name">
-						<label for="new_layer_description">Description: </label>
-						<textarea class="form-control" rows="2" id="new_layer_description"></textarea>
-					  </fieldset>
-					<button type="button" class="btn btn-primary" id="save_layer_btn">Save</button>
+					<button ng-click="add()">Add New Layer</button>
 					</form>
 		        </div>
 		    </div>
@@ -354,9 +369,15 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
+<script>
+var app = angular.module('dsa', ['colorpicker.module']);
+</script>
 <script src="/static/js/digitalslidearchive/dsa.js"></script>
 <script src="/static/js/digitalslidearchive/dsa-viewer.js"></script>
 <script src="/static/js/digitalslidearchive/dsa-annotations.js"></script>
 <script src="/static/js/digitalslidearchive/dsa-layers.js"></script>
+<script src="/static/js/digitalslidearchive/controllers/layer.js"></script>
+<script src="/static/js/digitalslidearchive/controllers/markup.js"></script>
+<script src="/static/js/bootstrap-colorpicker-module.js"></script>
 </body>
 </html>

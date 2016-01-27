@@ -9,9 +9,14 @@ var DSAAnnotations = (function(){
 		annotationState.setSeadragonViewer(viewer);
 		annotation_setup_code(annotationState);
 	
-	
 		$(annotationState).on("annotationAdded", function(e) {
-    		display(annotationState);
+    		var scope = angular.element(document.getElementById("annotation_list_ctrl")).scope();
+			scope.$apply(function () {
+				var ants = annotationState.annotations;
+				scope.markups = ants;
+				scope.index = ants[ants.length - 1].data.index;
+			});
+
 		});
 	});
 
@@ -25,7 +30,7 @@ var DSAAnnotations = (function(){
 
 	display = function(annotationState){
 		//show overview of the annotations in the bootstrap accordion
-		$("#annotation_list_table").html("");
+		/*$("#annotation_list_table").html("");
 		
 		for (i = 0; i < annotationState.annotations.length; i++){
 			annot = annotationState.annotations[i];
@@ -63,7 +68,7 @@ var DSAAnnotations = (function(){
                 );
 
 			//Append the name input field
-			var layersDropDown = $("<select>");
+			var layersDropDown = $('<select>');
 			$.each(layers, function(k, v){
 				layersDropDown.append($("<option>").attr("value", k).html(k));
 			});
@@ -89,7 +94,7 @@ var DSAAnnotations = (function(){
 					}).attr({src:"openseadragon_annotations/drawing_icons/delete.png"}).addClass("annot_delete_icon")
 				)
 			);
-		}
+		}*/
 	};
 
 	return{
