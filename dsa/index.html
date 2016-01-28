@@ -9,38 +9,33 @@
     <!-- Include Jquery and Jquery UI from CDN -->
     <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg==" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen" href="https://code.jquery.com/ui/1.11.4/themes/start/jquery-ui.css" />
     
 	<!-- Include Bootstrap from CDN -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     
 	<!-- Right now building against 2.1.0 -->
-	<script src="/static/js/openseadragon/knockout-3.0.0.js"></script>
-    <script src="/static/js/openseadragon/openseadragon.min.js"></script>
-	<script src="/static/js/openseadragon/openseadragon-scalebar.js"></script>
-	<script src="/static/js/openseadragon/openseadragon-imaginghelper.min.js"></script>
-	<script src="/static/js/openseadragon/openseadragon-viewerinputhook.min.js"></script>
+	<script src="assets/libs/knockout-3.0.0.js"></script>
+    <script src="assets/libs/openseadragon.min.js"></script>
+	<script src="assets/libs/openseadragon-scalebar.js"></script>
+	<script src="assets/libs/openseadragon-imaginghelper.min.js"></script>
+	<script src="assets/libs/openseadragon-viewerinputhook.min.js"></script>
 
     <!-- These are the annotation files in the src directory that serve as the basic for OSD annotations -->
-    <script type="text/javascript" src="openseadragon_annotations/annotations.js"></script>
-    <script type="text/javascript" src="openseadragon_annotations/annotationState_control_functions.js"></script>
-    <script type="text/javascript" src="openseadragon_annotations/openseadragon_setup_functions.js"></script>
-    <script type="text/javascript" src="openseadragon_annotations/bootstrap-switch.js"></script>
-    <script type="text/javascript" src="openseadragon_annotations/mousetrap.min.js"></script>
-    <script type="text/javascript" src="openseadragon_annotations/colornames_to_hex_hash.js"></script>
+    <script type="text/javascript" src="assets/js/annotations.js"></script>
+    <script type="text/javascript" src="assets/js/annotationState_control_functions.js"></script>
+    <script type="text/javascript" src="assets/js/openseadragon_setup_functions.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap-switch.js"></script>
+    <script type="text/javascript" src="assets/js/mousetrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/colornames_to_hex_hash.js"></script>
 
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-	<link href="static/css/digitalslidearchive.css" rel="stylesheet">
-	<link href="static/css/colorpicker.css" rel="stylesheet">
+	<link href="assets/css/digitalslidearchive.css" rel="stylesheet">
+	<link href="assets/css/colorpicker.css" rel="stylesheet">
 </head>
 
 <body>
     <script>
-    base_host = "http://cancer.digitalslidearchive.emory.edu"
-    datagroup_apiurl = base_host + '/api/v1/collections';
-
     slides = [
 		{'id': 'TCGA-2H-A9GG-11A-01-TS1',
          'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
@@ -63,7 +58,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#"></a>
                     <a class="navbar-brand" href="#">
-						<img src="static/imgs/CDSA_Slide_50.png" style="float:left;margin-top:-10px" height="40" />
+						<img src="assets/img/CDSA_Slide_50.png" style="float:left;margin-top:-10px" height="40" />
 						DSA Annotations DevSite
 					</a>
             </div>
@@ -140,11 +135,12 @@
 								<td>{{markup.data.type}}</td>
 								<td><input class="form-control" colorpicker ng-model="markup.data.color" type="text" size="7" ng-change="update($index, markup);"/></td>
 								<td><div style="height:20px;width:20px;background-color:{{markup.data.color}};"></div></td>
-								<td><select class="form-control" ng-model="markup.data.layer" ng-options="layer.name for layer in layers">
-									<option>Layer...</option></select>
+								<td><select class="form-control" 
+										ng-model="markup.data.layer" 
+										ng-options="layer.name for layer in layers"></select>
 								</td>
 								<td><input type="text" class="form-control" ng-model="markup.data.name" ng-blur="update($index, markup)"></td>
-								<td><a href ng-click="remove($index)"><img src="openseadragon_annotations/drawing_icons/delete.png"/></a</td>
+								<td><a href ng-click="remove($index)"><img src="assets/img/delete.png"/></a</td>
 							</tr>
 						</tbody>
 					 </table>
@@ -356,7 +352,7 @@
     						<tr ng-repeat="layer in layers track by $index">
       							<td><input type="text" class="form-control" ng-model="layer.name" ng-blur="update($index, layer)"></td>
 								<td><textarea class="form-control" rows="1" ng-model="layer.description" ng-blur="update($index, layer)">{{layer.description}}</textarea></td>
-								<td><a href ng-click="remove($index)"><img src="openseadragon_annotations/drawing_icons/delete.png"/></a></td>
+								<td><a href ng-click="remove($index)"><img src="assets/img/delete.png"/></a></td>
     						</tr>
 						</tbody>
 					 </table>
@@ -370,34 +366,11 @@
 	</div>
 	<!-- /.modal -->
 
-	<!--Draw tools draggable modal-->
-	<div id="layers_annotations_modal" class="modal fade">
-		<div class="modal-dialog">
-		    <div class="modal-content">
-		        <div class="modal-header">
-		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		             <h4 class="modal-title">Annotation layers</h4>
-		        </div>
-		        <div class="modal-body" ng-controller="layersCtrl1">
-					
-
-
-		        </div>
-		    </div>
-		    <!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-<script>
-var app = angular.module('dsa', ['colorpicker.module']);
-</script>
-<script src="/static/js/digitalslidearchive/dsa.js"></script>
-<script src="/static/js/digitalslidearchive/dsa-viewer.js"></script>
-<script src="/static/js/digitalslidearchive/dsa-annotations.js"></script>
-<script src="/static/js/digitalslidearchive/dsa-layers.js"></script>
-<script src="/static/js/digitalslidearchive/controllers/layer.js"></script>
-<script src="/static/js/digitalslidearchive/controllers/markup.js"></script>
-<script src="/static/js/bootstrap-colorpicker-module.js"></script>
+<script src="assets/js/dsa.js"></script>
+<script src="assets/js/viewer.js"></script>
+<script src="app/app.module.js"></script>
+<script src="app/components/layer/controller.js"></script>
+<script src="app/components/markup/controller.js"></script>
+<script src="assets/libs/bootstrap-colorpicker-module.js"></script>
 </body>
 </html>
