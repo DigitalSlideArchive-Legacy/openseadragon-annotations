@@ -31,12 +31,4 @@ $(document).ready(function(){
 	$("#layers_modal").draggable({
       handle: ".modal-header"
 	});
-
-	$("#save_layer_btn").click(function(e){
-		var newLayer = new layer({
-				name: $("#new_layer_name").val(),
-				description: $("#new_layer_description").val(),
-				imageId: selectedImageId
-			});
-	});
 });
