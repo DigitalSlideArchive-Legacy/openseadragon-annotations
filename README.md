@@ -27,12 +27,12 @@ There's probably a cleaner way, but to save the data to the server, I did a
 
 myjson_as_a_string = JSON.stringy(currentdataset) 
 
-## This will which generate a string that I can push to the server;  I can also reverse this oepration by doing
+This will which generate a string that I can push to the server;  I can also reverse this oepration by doing
 
 JSON.parse(myjson_as_a_string)
 
 
-# Once I clear the data, if I run
+Once I clear the data, if I run
 
 annotationState.loadAnnotations(currentdataset)
 
