@@ -919,6 +919,10 @@ $.extend(AnnotationState.prototype, {
 			self._overlay.redraw();
 		};
 		$el.one('mouseup', function() { $el.off('mousemove', onMouseMove); });
+
+		//Turn off the mouse tracking once the user click
+		//that fixed the Cannot read property 'data' of null
+		$el.one('click', function() { $el.off('mousemove', onMouseMove);});
 		$el.on('mousemove', onMouseMove);
 	},
 
@@ -931,6 +935,10 @@ $.extend(AnnotationState.prototype, {
 			self._overlay.redraw();
 		};
 		$el.one('mouseup', function() { $el.off('mousemove', onMouseMove);});
+
+		//Turn off the mouse tracking once the user click
+		//that fixed the Cannot read property 'data' of null
+		$el.one('click', function() { $el.off('mousemove', onMouseMove);});
 		$el.on('mousemove', onMouseMove);
 	},
 	
