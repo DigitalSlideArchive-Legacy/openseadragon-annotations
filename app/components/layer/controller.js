@@ -37,7 +37,7 @@ app.controller("layersCtrl", function($rootScope, $scope){
 	/**
 	 * Remove layer
 	 * @param {Number} index (layer index or ID)
-	 */.
+	 */
 	$scope.remove = function(index){
 		$scope.layers.splice(index, 1);
 	};
