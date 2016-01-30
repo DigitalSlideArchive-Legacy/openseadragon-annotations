@@ -87,7 +87,7 @@ function AnnotationStateToolbar(opts) {
 }
 $.extend(AnnotationStateToolbar.prototype, {
 	_DEFAULTS: {
-		element: 'annotation_dialog'
+		element: 'image_viewer_toolbar'
 	},
 
 	_init: function(opts) {
@@ -99,52 +99,10 @@ $.extend(AnnotationStateToolbar.prototype, {
 		this.element = element;
 		this.annotationState = opts.annotationState;
 
-		this._inject(this.element);
 		this._attachToControls(this.element);
 
 		if( this.annotationState )
 			this.attach(this.annotationState);
-	},
-
-	_inject: function(element) {
-		element.innerHTML = 
-			'<div id="wsi_toolbar">\n' +
-			'    <div id="wsi_active_shape" class="btn-group drawing_shape" data-toggle="buttons-radio" style="padding-bottom:5px">\n' +
-			'        <button id="circle" type="button" class="btn btn-primary osd_drawctrl">\n' +
-			'            <img src="assets/img/drawicons/circle.png">\n' +
-			'        </button>\n' +
-			'        <button id="rect" type="button" class="btn btn-primary">\n' +
-			'            <img src="assets/img/drawicons/square.png" /></button>\n' +
-			'		<button id="polygon" type="button" class="btn btn-primary">\n' +
-			'                    <img src="assets/img/drawicons/polyline_v1.png"/> </button>\n' +
-			'            <button id="poi" type="button" class="btn btn-primary" style="height:35px">\n' +
-			'                <img src="assets/img/drawicons/Pin1_Blue.png"/></button>\n' +              
-			'        <!--button id="freehand" type="button" class="btn btn-primary" style="height:30px">Freehand</button-->\n' +
-			'    </div>\n' +
-			'    <div id="wsi_paint_color" class="btn-group paint_color" data-toggle="buttons-radio">\n' +
-			'        <button id="red" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:10px solid red"></div>\n' +
-			'        </button>\n' +
-			'        <button id="green" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:10px solid green"></div>\n' +
-			'        </button>\n' +
-			'        <button id="blue" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:10px solid blue"></div>\n' +
-			'        </button>\n' +
-			'        <button id="yellow" type="button" class="btn btn-primary">\n' +
-			'            <div style="border:10px solid yellow"></div>\n' +
-			'        </button>\n' +
-			'    </div>\n' +
-			'\n' +
-			'    <!--span id="cur_color_span">Current Color:\n' +
-			'        <span id="cur_color"></span>\n' +
-			'    </span-->\n' +
-			'\n' +
-			'    Drawing Enabled:\n' +
-			'    <div id="drawing_switch" style="height:25px" class="switch drawing_switch" data-on="danger" data-off="warning">\n' +
-			'                <input type="checkbox">\n' +
-			'    </div>\n' +
-			'</div>\n';
 	},
 
 	/**

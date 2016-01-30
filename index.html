@@ -2,22 +2,22 @@
 <html ng-app="dsa">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DSA OSD Annotations DevEnv</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>DSA OSD Annotations DevEnv</title>
 
-    <!-- Include Jquery and Jquery UI from CDN -->
-    <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
-    
+	<!-- Include Jquery and Jquery UI from CDN -->
+	<script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+
 	<!-- Include Bootstrap from CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     
 	<!-- knockout is used by openseadragon image helper -->
 	<script src="assets/libs/knockout-3.0.0.js"></script>
-    <script src="assets/libs/openseadragon.min.js"></script>
+	<script src="assets/libs/openseadragon.min.js"></script>
 
 	<!-- Used to add the scale bar to the openseadragon viewer -->
 	<script src="assets/libs/openseadragon-scalebar.js"></script>
@@ -26,13 +26,16 @@
 	<script src="assets/libs/openseadragon-imaginghelper.min.js"></script>
 	<script src="assets/libs/openseadragon-viewerinputhook.min.js"></script>
 
-    <!-- Annotation scripts -->
-    <script type="text/javascript" src="assets/js/annotations.js"></script>
-    <script type="text/javascript" src="assets/js/annotationState_control_functions.js"></script>
-    <script type="text/javascript" src="assets/js/openseadragon_setup_functions.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap-switch.js"></script>
-    <script type="text/javascript" src="assets/js/mousetrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/colornames_to_hex_hash.js"></script>
+	<!-- Used for the cool on/off switch -->
+	<script src="assets/libs/bootstrap-switch.js"></script>
+
+	<!-- Annotation scripts -->
+	<script type="text/javascript" src="assets/js/annotations.js"></script>
+	<script type="text/javascript" src="assets/js/annotationState_control_functions.js"></script>
+	<script type="text/javascript" src="assets/js/openseadragon_setup_functions.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap-switch.js"></script>
+	<script type="text/javascript" src="assets/js/mousetrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/colornames_to_hex_hash.js"></script>
 
 	<!-- Angular JS -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
@@ -40,6 +43,9 @@
 	<!-- Style sheets -->
 	<link href="assets/css/digitalslidearchive.css" rel="stylesheet">
 	<link href="assets/css/colorpicker.css" rel="stylesheet">
+
+	<!-- Style for the cool on/off switch -->
+	<link href="assets/css/bootstrap-switch.css" rel="stylesheet">
 </head>
 
 <body>
@@ -84,13 +90,67 @@
 			</div>
 
             <div class="col-md-9 full-height">
-				<div id="image_viewer_toolbar" class="toolbar">
-					<span style='float:right;margin:10px 20px 0 0'>
-					| <a href="#draw_tools_modal" data-backdrop="false" data-toggle="modal">Draw tools</a> 
-					| <a href="#annotations_modal" data-backdrop="false" data-toggle="modal">Annotations</a> 
-					| <a href="#viewport_properties_modal" data-backdrop="false" data-toggle="modal">Viewport properties</a> 
-					| <a href="#layers_modal" data-backdrop="false" data-toggle="modal">Layers</a> 
-					</span>
+				<div id="image_viewer_toolbar" class="toolbar" style="height:35px">
+					<div 
+						id="wsi_active_shape" 
+						class="btn-group drawing_shape" 
+						data-toggle="buttons-radio" 
+						style="float:left;margin-right:5px">
+			        	<button id="circle" type="button" class="btn btn-primary osd_drawctrl">
+							<img src="assets/img/drawicons/circle.png">
+			        	</button>
+						<button id="rect" type="button" class="btn btn-primary">
+							<img src="assets/img/drawicons/square.png" />
+						</button>
+						<button id="polygon" type="button" class="btn btn-primary">
+							<img src="assets/img/drawicons/polyline_v1.png"/> 
+						</button>
+						<button id="poi" type="button" class="btn btn-primary" style="height:35px">
+							<img src="assets/img/drawicons/Pin1_Blue.png"/>
+						</button>              
+					</div>
+			
+					<div 
+						id="wsi_paint_color" 
+						class="btn-group paint_color" 
+						data-toggle="buttons-radio" 
+						style="float:left;margin-right:5px"">
+						<button id="red" type="button" class="btn btn-primary">
+							<div style="border:10px solid red"></div>
+						</button>
+						<button id="green" type="button" class="btn btn-primary">
+							<div style="border:10px solid green"></div>
+						</button>
+						<button id="blue" type="button" class="btn btn-primary">
+							<div style="border:10px solid blue"></div>
+						</button>
+						<button id="yellow" type="button" class="btn btn-primary">
+							<div style="border:10px solid yellow"></div>
+						</button>
+					</div>
+
+					<div 
+						class="drawing_switch" 
+						data-on="danger" 
+						data-off="warning" 
+						style="float:left">
+						<input type="checkbox">
+					</div>
+			
+					<div style='float:left;margin:0px 20px 0 0'>
+						<a href="#annotations_modal" data-backdrop="false" data-toggle="modal">
+							<img src="assets/img/annotations.png" height="32px">
+						</a> 
+						<a href="#viewport_properties_modal" data-backdrop="false" data-toggle="modal">
+							<img src="assets/img/info.png" height="32px">
+						</a>
+						| <a href="#layers_modal" data-backdrop="false" data-toggle="modal">Layers</a> 
+					</div>
+
+					<div data-bind="with: outputVM" style='float:left'>
+						<span><img src="assets/img/zoom.png" height="30px"></span>
+						<span data-bind="text: haveImage() ? OsdZoom().toFixed( 1 ) : '-'"></span>
+					</div>
 				</div>
 				<div id="image_viewer"></div>
 			</div>

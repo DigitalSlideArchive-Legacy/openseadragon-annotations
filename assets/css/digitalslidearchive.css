@@ -19,15 +19,11 @@ body {
 	
 	/*http://stackoverflow.com/questions/2434602/css-setting-width-height-as-percentage-minus-pixels*/
 	/*for the height subtract the height of the toolbar*/
-	height: calc(100% - 33px);
+	height: calc(100% - 50px);
 }
 
 #img_thumbnails{
 	padding-top:10px;
-}
-
-#accordion{
-	width:250px;
 }
 
 .top_buffer{ 

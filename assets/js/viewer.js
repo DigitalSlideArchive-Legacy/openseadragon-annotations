@@ -37,8 +37,7 @@ var DSAViewer = (function() {
 			prefixUrl: "assets/img/openseadragon/",
 			navigatorPosition: "BOTTOM_RIGHT",
 			showNavigator: true,
-			toolbar: "image_viewer_toolbar",
-		    tileSources: slides[0].filename_url
+			tileSources: slides[0].filename_url
 		});
 
 	viewer.scalebar({
