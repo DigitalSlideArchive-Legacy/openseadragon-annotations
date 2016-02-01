@@ -113,3 +113,9 @@ body {
 #annotations_modal .modal-body {
 	height: 280px;
 }
+
+.active_layer {
+    background-color:#cc9696;
+    color:white;
+    font-weight:bold;
+}

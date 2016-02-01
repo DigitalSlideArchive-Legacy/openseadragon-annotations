@@ -5,10 +5,13 @@ app.controller("layersCtrl", function($rootScope, $scope){
 	//Define scope variables
 	$scope.layers = [];
 	$scope.index = 0;
+	$scope.activeLayerIndex = 0;
+
 	$scope.options = {
 		id: null,
 		name: null,
 		description: null,
+		color: null,
 		imageId: null,
 		createdBy: null,
 		createdTime: new Date().toISOString(),
@@ -26,7 +29,7 @@ app.controller("layersCtrl", function($rootScope, $scope){
 	$scope.add = function(){
 		var opt = angular.merge(
 						angular.copy($scope.options), 
-						{id: $scope.index}
+						{id: $scope.index, name: $scope.layer.name}
 				);
 		
 		$scope.layers.push(opt);
@@ -47,8 +50,19 @@ app.controller("layersCtrl", function($rootScope, $scope){
 	 * @param {Number} index
 	 * @param {Object} layer
 	 */
-	$scope.update = function(index, layer){
-		$scope.layers[index].name = layer.name;
-		$scope.layers[index].description = layer.description;
-	}
+	$scope.update = function(){
+		$scope.layers[$scope.activeLayerIndex].name = $scope.activeLayer.name;
+		$scope.layers[$scope.activeLayerIndex].description = $scope.activeLayer.description;
+		$scope.layers[$scope.activeLayerIndex].color = $scope.activeLayer.color;
+	};
+
+	/**
+	 * Set active layer
+	 * Set the active layer index and the active layer data
+	 * @param {Number} index
+	 */
+	$scope.setActiveLayer = function(index){
+		$scope.activeLayerIndex = index;
+		$scope.activeLayer = $scope.layers[$scope.activeLayerIndex];
+	};
 });

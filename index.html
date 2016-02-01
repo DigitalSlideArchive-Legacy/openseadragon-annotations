@@ -9,7 +9,8 @@
 
 	<!-- Include Jquery from CDN -->
 	<script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
-	
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+
 	<!-- Include Bootstrap from CDN -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -396,42 +397,72 @@
 	</div>
 	<!-- /.modal -->
 
-	<!--Draw tools draggable modal-->
 	<div id="layers_modal" class="modal fade">
 		<div class="modal-dialog">
 		    <div class="modal-content">
 		        <div class="modal-header">
 		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		             <h4 class="modal-title">Annotation layers</h4>
-
+		             <h4 class="modal-title">Annotations</h4>
 		        </div>
-		        <div class="modal-body" ng-controller="layersCtrl">
-					<form>
-					<table class="table table-striped" ng-show="layers.length">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Description</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-    						<tr ng-repeat="layer in layers track by $index">
-      							<td><input type="text" class="form-control" ng-model="layer.name" ng-blur="update($index, layer)"></td>
-								<td><textarea class="form-control" rows="1" ng-model="layer.description" ng-blur="update($index, layer)">{{layer.description}}</textarea></td>
-								<td><a href ng-click="remove($index)"><img src="assets/img/delete.png"/></a></td>
-    						</tr>
-						</tbody>
-					 </table>
-					<button ng-click="add()">Add New Layer</button>
-					</form>
+		        <div class="modal-body">
+					<div class="row" ng-controller="layersCtrl">
+
+						<!-- Layers -->
+						<div class="col-md-4">
+							<div style="float:left">Add Layer</div>
+							<input type="text" class="form-control" ng-model="layer.name" style="width:100px;float:left">
+							<a href="#" ng-click="add()">
+								<span class="glyphicon glyphicon-floppy-open" style="float:left;font-size:30px"></span></a>
+							<table class="table" ng-show="layers.length">
+								<tr 
+									ng-repeat="layer in layers track by $index" 
+									ng-click="setActiveLayer($index)"
+									ng-class="{'active_layer':$index == activeLayerIndex}">
+									<td>{{layer.name}}</td>
+									<td>
+										<a href ng-click="remove($index)"><span class="glyphicon glyphicon-remove"></span>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<!-- Active layer details -->
+						<div class="col-md-4">
+							<div><span class="layer_attribute">ID:</span> {{activeLayer.id}}</div>
+							<div><span class="layer_attribute">Image ID:</span> {{activeLayer.imageId}}</div>
+							<div><span class="layer_attribute">Created by:</span> {{activeLayer.createdBy}}</div>
+							<div><span class="layer_attribute">Time:</span> {{activeLayer.createdTime}}</div>
+							<div>
+								<span class="layer_attribute" style="float:left">Color:</span>
+								<input 
+										class="form-control" 
+										colorpicker 
+										ng-model="activeLayer.color" 
+										type="text" on-change="update();" style="width:50px;float:left"/>
+								<div style="float:left;height:30px;width:30px;background-color:{{activeLayer.color}};"></div>
+							</div>
+							<div>
+								<span class="layer_attribute" style="clear:left;float:left">Name:</span>
+								<input type="text" class="form-control" ng-model="activeLayer.name" ng-blur="update($index)">
+							</div>
+							<div>
+								<span class="layer_attribute" style="clear:left;float:left">Description:</span>
+								<input type="text" class="form-control" 
+									ng-model="activeLayer.description" ng-blur="update($index)">
+							</div>
+						</div>
+
+						<div class="col-md-4">
+3
+						</div>
+					</div>
 		        </div>
 		    </div>
 		    <!-- /.modal-content -->
 		</div>
 		<!-- /.modal-dialog -->
-	</div>
 	<!-- /.modal -->
+	</div>
 
 <script src="assets/js/dsa.js"></script>
 <script src="assets/js/viewer.js"></script>
