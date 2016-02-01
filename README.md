@@ -14,7 +14,6 @@ Dependencies
 |Library| Version | Used for|
 |-------|---------|---------|
 |jQuery |2.1.4    |         |
-|jQuery UI|1.11.4| |
 |Bootstrap|3.3.5|Layout and modals|
 |Knockout|3.0.0||
 |Openseadragon|2.1|Key binding for the switch button|
