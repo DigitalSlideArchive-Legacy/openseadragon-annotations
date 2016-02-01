@@ -15,13 +15,14 @@ Dependencies
 |-------|---------|---------|
 |jQuery |2.1.4    |         |
 |jQuery UI|1.11.4| |
-|Bootstrap|3.3.5||
+|Bootstrap|3.3.5|Layout and modals|
 |Knockout|3.0.0||
-|Openseadragon|2.1||
-|openseadragon-scalebar|||
-|openseadragon-imaginghelper|1.2||
-|openseadragon-viewerinputhook|1.1.0||
-|bootstrap-switch|3.3.2||
+|Openseadragon|2.1|Key binding for the switch button|
+|Openseadragon scalebar||Add scalebar to the viewer|
+|Openseadragon imaginghelper|1.2|Fetch various viewer properties|
+|Openseadragon viewerinputhook|1.1.0||
+|Bootstrap switch|3.3.2|Bootstrap on/off switch|
+|Bootstrap colorpicker||Markup color picker|
 |Angular JS|1.4.9||
 
 
