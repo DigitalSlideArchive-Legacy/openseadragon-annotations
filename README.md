@@ -15,6 +15,15 @@ Dependencies
 |-------|---------|---------|
 |jQuery |2.1.4    |         |
 |jQuery UI|1.11.4| |
+|Bootstrap|3.3.5||
+|Knockout|3.0.0||
+|Openseadragon|2.1||
+|openseadragon-scalebar|||
+|openseadragon-imaginghelper|1.2||
+|openseadragon-viewerinputhook|1.1.0||
+|bootstrap-switch|3.3.2||
+|Angular JS|1.4.9||
+
 
  
 This repo inludes only the client side application for the annotation. Parts of the code were written in Angular JS and Bootstrap and the directory structire is changed to AngularJS based structure. The Python web service was removed from this repo and will be push to a new standalone repo to keep things separated.
