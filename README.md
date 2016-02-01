@@ -1,6 +1,22 @@
 openseadragon-annotations
 =========================
 
+Openseadragon annotation is a web application that gives users the ability to specify deep zoom image source and then be able to markup and annotate the images. As of the now the application provides the following features:
+
+1. Markup images using predefined shapes: rectangule, circle, polygon, free hand and a point. In addition, the user can select a color for each markup.
+2. Add layers to which markups are assigned. The user can add/update/delete layers.
+3. From the markup window, users can update the markup name, change color using a color picker and assign a layer.
+
+This branch only contains the client side application. Server side and web services are to be included in a different branch.
+
+Dependencies
+--------------------------
+|Library| Version | Used for|
+|-------|---------|---------|
+|jQuery |2.1.4    |         |
+|jQuery UI|1.11.4| |
+
+ 
 This repo inludes only the client side application for the annotation. Parts of the code were written in Angular JS and Bootstrap and the directory structire is changed to AngularJS based structure. The Python web service was removed from this repo and will be push to a new standalone repo to keep things separated.
 
 This currently only works with a previous version of OpenSeaDragon 2.0.
