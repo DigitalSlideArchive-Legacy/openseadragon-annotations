@@ -6,12 +6,11 @@ app.controller("layersCtrl", function($scope){
 	$scope.layers = [];
 	$scope.index = 0;
 	$scope.activeLayerIndex = 0;
-	
+
 	$scope.options = {
 		id: null,
 		name: $scope.index,
 		description: null,
-		color: null,
 		imageId: "Unknown",
 		createdBy: "Guest",
 		createdTime: null,
@@ -24,9 +23,6 @@ app.controller("layersCtrl", function($scope){
 	$scope.$on('layers', function(events, args){
 		$scope.layers = args.layers;
 		$scope.activeLayerIndex = args.activeLayerIndex;
-		console.log("Emit from markups to layer ");
-		console.log(args);
-		console.log($scope.activeLayerIndex);
 	});
 
 	/**
@@ -41,7 +37,6 @@ app.controller("layersCtrl", function($scope){
 				);
 		
 		$scope.layers.push(opt);
-		console.log("broadcast active index " + $scope.activeLayerIndex);
 		var obj = {layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex};
 		$scope.$broadcast('layers', obj);
 		$scope.index++;
@@ -62,9 +57,16 @@ app.controller("layersCtrl", function($scope){
 	 * @param {Object} layer
 	 */
 	$scope.update = function(){
+		console.log("update color" + $scope.activeLayer.color);
 		$scope.layers[$scope.activeLayerIndex].name = $scope.activeLayer.name;
 		$scope.layers[$scope.activeLayerIndex].description = $scope.activeLayer.description;
-		$scope.layers[$scope.activeLayerIndex].color = $scope.activeLayer.color;
+		
+		var markups = $scope.layers[$scope.activeLayerIndex].markups;
+		for(var index in markups){
+			markup = markups[index];
+			markup.element.style.borderColor = $scope.activeLayer.color;
+			markup.data.color = $scope.activeLayer.color;
+		}
 	};
 
 	/**
@@ -75,8 +77,7 @@ app.controller("layersCtrl", function($scope){
 	$scope.setActiveLayer = function(index){
 		$scope.activeLayerIndex = index;
 		$scope.activeLayer = $scope.layers[$scope.activeLayerIndex];
-		console.log("broadcast active index " + $scope.activeLayerIndex);
-
+		
 		var obj = {layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex};
 		$scope.$broadcast('layers', obj);
 	};

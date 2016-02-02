@@ -19,7 +19,7 @@ $(document).ready(function(){
 		//Add new markup
 		//Use $apply, which will trigger, $digest and $watch to update all scope variables.
 		markupScope.$apply(function () {
-			markupScope.add(annotationState.annotations);
+			markupScope.add(annotationState.annotations[annotationState.annotations.length - 1]);
 		});
 	});
 
