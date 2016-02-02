@@ -74,7 +74,11 @@ var DSAViewer = (function() {
 			.click(function(){
 				selectedImageId = slide.id;
 				viewer.open(slide.filename_url);
-				
+
+				//Update the image Id for the layer controller
+				layerScope.$apply(function () {
+					layerScope.options.imageId = selectedImageId;
+				});
 			})
 		)
 	});

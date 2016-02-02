@@ -99,23 +99,12 @@ body {
     overflow-y: scroll;
 }
 
-/*Draw tools window style*/
-#draw_tools_modal{
-	width:250px;
-	height:300px;
-}
-
-#draw_tools_modal .modal-dialog {
-  width:250px;
-  padding: 0;
-}
-
 #annotations_modal .modal-body {
 	height: 280px;
 }
 
 .active_layer {
-    background-color:#cc9696;
+    background-color:#EFEAEA;
     color:white;
     font-weight:bold;
 }

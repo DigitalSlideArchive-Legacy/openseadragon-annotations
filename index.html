@@ -40,43 +40,18 @@
 	<!-- Angular JS -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 
-	<!-- Style sheets -->
-	<link href="assets/css/digitalslidearchive.css" rel="stylesheet">
-	<link href="assets/css/colorpicker.css" rel="stylesheet">
-
 	<!-- Style for the cool on/off switch -->
+	<link href="assets/css/colorpicker.css" rel="stylesheet">
 	<link href="assets/css/bootstrap-switch.css" rel="stylesheet">
-
-	
-
+	<link href="assets/css/digitalslidearchive.css" rel="stylesheet">
 </head>
 
 <body>
     <script>
-    slides = [
-		{'id': 'TCGA-2H-A9GG-11A-01-TS1',
-         'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
-         'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
-		},
-		{'id': 'TCGA-2H-A9GG-11A-01-TS2',
-         'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
-         'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
-		},
-		{'id': 'TCGA-2H-A9GG-11A-01-TS2',
-         'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif.dzi',
-         'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?FIF=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-02-BS2.svs.dzi.tif&WID=200&CVT=jpeg'
-		}
-		]
-
 		slides = [
 			{'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif', 'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif.dzi', 'id': 'TCGA-06-0137-01A-01-BS1'},
 			 {"file_thumbnail": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0034-01A-02-BS2.svs.dzi.tif", "prep_type": "FrozenSection", "pyramid_w_path": "/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0034-01A-02-BS2.svs.dzi.tif", "filename_url": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0034-01A-02-BS2.svs.dzi.tif.dzi", "id": "TCGA-02-0034-01A-02-BS2","pyramid_base_name": "TCGA-02-0034-01A-02-BS2.svs.dzi.tif"},
-			  {"file_thumbnail": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif", "prep_type": "FrozenSection", "pyramid_w_path": "/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif", "filename_url": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif.dzi", "id": "TCGA-02-0002-01A-01-BS1",  "pyramid_base_name": "TCGA-02-0002-01A-01-BS1.svs.dzi.tif"}]
-			  
-
-
-
-	
+			  {"file_thumbnail": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif", "prep_type": "FrozenSection", "pyramid_w_path": "/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif", "filename_url": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif.dzi", "id": "TCGA-02-0002-01A-01-BS1",  "pyramid_base_name": "TCGA-02-0002-01A-01-BS1.svs.dzi.tif"}];
     </script>
 
 	<!-- Fixed navbar -->
@@ -151,13 +126,12 @@
 					</div>
 			
 					<div style='float:left;margin:0px 20px 0 0'>
-						<a href="#annotations_modal" data-backdrop="false" data-toggle="modal">
+						<a href="#layers_modal" data-backdrop="false" data-toggle="modal">
 							<img src="assets/img/annotations.png" height="32px">
 						</a> 
 						<a href="#viewport_properties_modal" data-backdrop="false" data-toggle="modal">
 							<img src="assets/img/info.png" height="32px">
 						</a>
-						| <a href="#layers_modal" data-backdrop="false" data-toggle="modal">Layers</a> 
 					</div>
 
 					<div data-bind="with: outputVM" style='float:left'>
@@ -169,70 +143,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!--Draw tools draggable modal-->
-	<div id="draw_tools_modal" class="modal fade">
-		<div class="modal-dialog">
-		    <div class="modal-content">
-		        <div class="modal-header">
-		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		             <h4 class="modal-title">Draw tools</h4>
-
-		        </div>
-		        <div class="modal-body">
-					<div id="annotation_dialog"></div>
-		        </div>
-		    </div>
-		    <!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-
-	<!--Annotatation draggable modal-->
-	<div id="annotations_modal" class="modal fade">
-		<div class="modal-dialog">
-		    <div class="modal-content">
-		        <div class="modal-header">
-		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		             <h4 class="modal-title">Annotations</h4>
-
-		        </div>
-		        <div class="modal-body" ng-controller="markupCtrl" id="annotation_list_ctrl">
-					<table class="table table-striped" ng-show="markups.length">
-						<thead>
-							<tr>
-								<th>Type</th>
-								<th>Color</th>
-								<th></th>
-								<th>Layer</th>
-								<th>Name</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody id="annotation_list_table"></tbody>
-						<tbody>
-							<tr ng-repeat="markup in markups">
-								<td>{{markup.data.type}}</td>
-								<td><input class="form-control" colorpicker ng-model="markup.data.color" type="text" size="7" ng-change="update($index, markup);"/></td>
-								<td><div style="height:20px;width:20px;background-color:{{markup.data.color}};"></div></td>
-								<td><select class="form-control" 
-										ng-model="markup.data.layer" 
-										ng-options="layer.name for layer in layers"></select>
-								</td>
-								<td><input type="text" class="form-control" ng-model="markup.data.name" ng-blur="update($index, markup)"></td>
-								<td><a href ng-click="remove($index)"><img src="assets/img/delete.png"/></a</td>
-							</tr>
-						</tbody>
-					 </table>
-					<div ng-show="markups.length == 0">No markups have been added</div>
-		        </div>
-		    </div>
-		    <!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
 
 	<!--Viewport properties draggable modal-->
 	<div id="viewport_properties_modal" class="modal fade">
@@ -410,29 +320,36 @@
 	</div>
 	<!-- /.modal -->
 
-	<div id="layers_modal" class="modal fade">
-		<div class="modal-dialog">
+	<div id="layers_modal" class="modal fade layers_modal" style="margin-left:10%;width:80%">
+		<div class="modal-dialog" style="width:100%">
 		    <div class="modal-content">
-		        <div class="modal-header">
+		        <div class="modal-header" style="background-color:#c7b0d9">
 		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		             <h4 class="modal-title">Annotations</h4>
 		        </div>
-		        <div class="modal-body">
-					<div class="row" ng-controller="layersCtrl">
+		        <div class="modal-body" style="margin:0;padding:0 0px 0 15px">
+					<div class="row" ng-controller="layersCtrl" id="layer_ng_controller">
 
 						<!-- Layers -->
-						<div class="col-md-4">
-							<div style="float:left">Add Layer</div>
-							<input type="text" class="form-control" ng-model="layer.name" style="width:100px;float:left">
-							<a href="#" ng-click="add()">
-								<span class="glyphicon glyphicon-floppy-open" style="float:left;font-size:30px"></span></a>
-							<table class="table" ng-show="layers.length">
+						<div class="col-md-4" style="border-right:1px solid gray;min-height:400px;padding:0">
+							<h4 style="text-align:center">Layers</h4><hr/>
+							<form class="form-inline">
+								<fieldset class="form-group">
+									<label for="new_layer_name">New layer:</label>
+									<input type="text" class="form-control" id="new_layer_name"
+										ng-model="options.name" style="width:100px"/>
+									<a href="#" ng-click="add()">
+										<span class="glyphicon glyphicon-floppy-open" 
+											style="float:left;font-size:30px;margin-left:20px;float:right"></span></a>
+								</fieldset>
+							</form>
+							<table class="table" ng-show="layers.length" style="width:100%">
 								<tr 
 									ng-repeat="layer in layers track by $index" 
 									ng-click="setActiveLayer($index)"
 									ng-class="{'active_layer':$index == activeLayerIndex}">
 									<td>{{layer.name}}</td>
-									<td>
+									<td style="width:50px">
 										<a href ng-click="remove($index)"><span class="glyphicon glyphicon-remove"></span>
 									</td>
 								</tr>
@@ -440,34 +357,62 @@
 						</div>
 
 						<!-- Active layer details -->
-						<div class="col-md-4">
-							<div><span class="layer_attribute">ID:</span> {{activeLayer.id}}</div>
-							<div><span class="layer_attribute">Image ID:</span> {{activeLayer.imageId}}</div>
-							<div><span class="layer_attribute">Created by:</span> {{activeLayer.createdBy}}</div>
-							<div><span class="layer_attribute">Time:</span> {{activeLayer.createdTime}}</div>
-							<div>
-								<span class="layer_attribute" style="float:left">Color:</span>
-								<input 
-										class="form-control" 
-										colorpicker 
-										ng-model="activeLayer.color" 
-										type="text" on-change="update();" style="width:50px;float:left"/>
-								<div style="float:left;height:30px;width:30px;background-color:{{activeLayer.color}};"></div>
-							</div>
-							<div>
-								<span class="layer_attribute" style="clear:left;float:left">Name:</span>
-								<input type="text" class="form-control" ng-model="activeLayer.name" ng-blur="update($index)">
-							</div>
-							<div>
-								<span class="layer_attribute" style="clear:left;float:left">Description:</span>
-								<input type="text" class="form-control" 
-									ng-model="activeLayer.description" ng-blur="update($index)">
-							</div>
+						<div class="col-md-4" style="border-right:1px solid gray;min-height:400px">
+							<h4 style="text-align:center">Layer Details</h4><hr/>
+							<form>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Layer ID:</label> 
+									<span>{{activeLayer.id}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Image ID:</label> 
+									<span>{{activeLayer.imageId}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Created by:</label> 
+									<span>{{activeLayer.createdBy}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Time:</label> 
+									<span>{{activeLayer.createdTime}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id" style="float:left">Color:</label>
+									<input 
+											class="form-control" 
+											colorpicker 
+											ng-model="activeLayer.color" 
+											type="text" on-change="update();" style="width:100px;float:left"/>
+									<div style="float:left;height:30px;width:30px;background-color:{{activeLayer.color}};"></div>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Name:</label>
+									<input type="text" class="form-control" ng-model="activeLayer.name" ng-blur="update()">
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Description:</label>
+									<input type="text" class="form-control" 
+									ng-model="activeLayer.description" ng-blur="update()">
+								</fieldset>
+							</form>
 						</div>
 
-						<div class="col-md-4">
-3
-						</div>
+						<div class="col-md-4" ng-controller="markupCtrl" id="markup_ng_controller">
+							<h4 style="text-align:center">Layer Markups</h4><hr/>
+							<!--table class="table table-striped" ng-show="markups.length">
+							<tr ng-repeat="markup in markups">
+								<td>{{markup.data.type}}</td>
+								<td><input class="form-control" colorpicker ng-model="markup.data.color" type="text" size="7" ng-change="update($index, markup);"/></td>
+								<td><div style="height:20px;width:20px;background-color:{{markup.data.color}};"></div></td>
+								<td><select class="form-control" 
+										ng-model="markup.data.layer" 
+										ng-options="layer.name for layer in layers"></select>
+								</td>
+								<td><input type="text" class="form-control" ng-model="markup.data.name" ng-blur="update($index, markup)"></td>
+								<td><a href ng-click="remove($index)"><img src="assets/img/delete.png"/></a</td>
+							</tr>
+					 		</table>
+						</div-->
 					</div>
 		        </div>
 		    </div>

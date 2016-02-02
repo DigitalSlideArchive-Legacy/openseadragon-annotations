@@ -1,20 +1,20 @@
 //Define a controller for layers
 //Add root scope dependency
-app.controller("layersCtrl", function($rootScope, $scope){
+app.controller("layersCtrl", function($scope){
 
 	//Define scope variables
 	$scope.layers = [];
 	$scope.index = 0;
 	$scope.activeLayerIndex = 0;
-
+	
 	$scope.options = {
 		id: null,
-		name: null,
+		name: $scope.index,
 		description: null,
 		color: null,
-		imageId: null,
-		createdBy: null,
-		createdTime: new Date().toISOString(),
+		imageId: "Unknown",
+		createdBy: "Guest",
+		createdTime: null,
 		attributes: {},
 
 		//Place to hold all markups assigned to this layer
@@ -29,12 +29,13 @@ app.controller("layersCtrl", function($rootScope, $scope){
 	$scope.add = function(){
 		var opt = angular.merge(
 						angular.copy($scope.options), 
-						{id: $scope.index, name: $scope.layer.name}
+						{id: $scope.index, name: $scope.options.name, createdTime: new Date().toISOString()}
 				);
 		
 		$scope.layers.push(opt);
-		$rootScope.$broadcast('layers', $scope.layers);
+		$scope.$broadcast('layers', $scope.layers);
 		$scope.index++;
+		$scope.options.name = $scope.index;
 	};
 
 	/**
