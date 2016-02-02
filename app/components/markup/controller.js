@@ -5,13 +5,15 @@ app.controller("markupCtrl", function($scope, $window){
 	//Define scope variables
 	$scope.markups = [];
 	$scope.layers = [];
+	$scope.activeLayerIndex = 0;
 	$scope.index = 0;
 
 	//Listen to changes for variable layers broadcasted
 	//by the layer controller and update the $scope layer
 	//variable
 	$scope.$on('layers', function(events, args){
-		$scope.layers = args;
+		$scope.layers = args.layers;
+		$scope.activeLayerIndex = args.activeLayerIndex;
 		console.log(args);
 	});
 
@@ -28,6 +30,9 @@ app.controller("markupCtrl", function($scope, $window){
 		//Get the most recently added markup
 		var newMarkup = $scope.markups[$scope.markups.length - 1].data; 
 
+		$scope.layers[$scope.activeLayerIndex].markups[newMarkup.index] = newMarkup;
+		console.log($scope.layers);
+
 		//IMPORTANT: we need to keep both the annotation code assigned markup/annotation ID
 		//in sync with the $scope.index value. This way when we remove a markup or update
 		//we can reference both the $scope markup and the global JS variable annotationState.annotations
@@ -41,8 +46,8 @@ app.controller("markupCtrl", function($scope, $window){
 	 * @param {Object} markup
 	 */
 	$scope.update = function(index, markup){
-		$window.annotationState.annotations[index].element.style.borderColor = markup.data.color;
-		$window.annotationState.annotations[index].data.color = markup.data.color;
+		$window.annotationState.annotations[index].element.style.borderColor = markup.color;
+		$window.annotationState.annotations[index].data.color = markup.color;
 	};
 
 	/**
@@ -52,5 +57,6 @@ app.controller("markupCtrl", function($scope, $window){
 	$scope.remove = function(index){
 		$window.annotationState.annotations[index].detach();
 		$scope.markups.splice(index, 1);
+		delete $scope.layers[$scope.activeLayerIndex].markups[index];
 	};
 });

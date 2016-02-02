@@ -18,7 +18,7 @@ app.controller("layersCtrl", function($scope){
 		attributes: {},
 
 		//Place to hold all markups assigned to this layer
-		markup: []
+		markups: {}
 	};
 
 	/**
@@ -33,7 +33,8 @@ app.controller("layersCtrl", function($scope){
 				);
 		
 		$scope.layers.push(opt);
-		$scope.$broadcast('layers', $scope.layers);
+		$scope.$broadcast('layers', 
+				{layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex});
 		$scope.index++;
 		$scope.options.name = $scope.index;
 	};
@@ -65,5 +66,7 @@ app.controller("layersCtrl", function($scope){
 	$scope.setActiveLayer = function(index){
 		$scope.activeLayerIndex = index;
 		$scope.activeLayer = $scope.layers[$scope.activeLayerIndex];
+		$scope.$broadcast('layers', 
+				{layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex});
 	};
 });
