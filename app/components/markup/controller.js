@@ -38,6 +38,7 @@ app.controller("markupCtrl", function($scope, $window){
 		//we can reference both the $scope markup and the global JS variable annotationState.annotations
 		//using the same index.
 		$scope.index = newMarkup.index;
+		console.log("new index" + $scope.index);
 	};
 
 	/**
@@ -55,8 +56,10 @@ app.controller("markupCtrl", function($scope, $window){
 	 * @param {Number} index
 	 */
 	$scope.remove = function(index){
-		$window.annotationState.annotations[index].detach();
+		console.log("delete index" + index);
 		$scope.markups.splice(index, 1);
+		$window.annotationState.annotations[index].detach();
 		delete $scope.layers[$scope.activeLayerIndex].markups[index];
+		
 	};
 });
