@@ -33,9 +33,10 @@ app.controller("markupCtrl", function($scope, $window){
 	 * @param {Number} index
 	 * @param {Object} markup
 	 */
-	$scope.update = function(index, markup){
-		$scope.layers[$scope.activeLayerIndex].markups[index].element.style.borderColor = markup.data.color;
-		$scope.layers[$scope.activeLayerIndex].markups[index].data.color = markup.data.color
+	$scope.update = function(markup){
+		markup.element.style.borderColor = markup.data.color;
+		markup.data.color = markup.data.color;
+		markup.data.name = markup.data.name;
 	};
 
 	/**

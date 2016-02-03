@@ -57,7 +57,6 @@ app.controller("layersCtrl", function($scope){
 	 * @param {Object} layer
 	 */
 	$scope.update = function(){
-		console.log("update color" + $scope.activeLayer.color);
 		$scope.layers[$scope.activeLayerIndex].name = $scope.activeLayer.name;
 		$scope.layers[$scope.activeLayerIndex].description = $scope.activeLayer.description;
 		
