@@ -40,6 +40,9 @@ var DSAViewer = (function() {
 			tileSources: slides[0].filename_url
 		});
 
+	$("#image_info").text(slides[0].id);  //TO DO:  Make this update with actual slide being shown!
+
+
 	viewer.scalebar({
 			type: OpenSeadragon.ScalebarType.MAP,
 			pixelsPerMeter: 20,
