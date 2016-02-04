@@ -1,3 +1,5 @@
+//Define a service for the markup
+//Add root scope dependency
 app.factory("markupService", function($window){
 
 	getAnnotationIndex = function(index){
