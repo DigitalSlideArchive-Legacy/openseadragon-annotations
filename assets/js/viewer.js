@@ -40,9 +40,6 @@ var DSAViewer = (function() {
 			tileSources: slides[0].filename_url
 		});
 
-	$("#image_info").text(slides[0].id);  //TO DO:  Make this update with actual slide being shown!
-
-
 	viewer.scalebar({
 			type: OpenSeadragon.ScalebarType.MAP,
 			pixelsPerMeter: 20,
@@ -69,6 +66,8 @@ var DSAViewer = (function() {
 
 	//load the slide thumbnails
 	selectedImageId = slides[0].id;
+	$("#image_id_display").html(selectedImageId);
+
 	slides.forEach(function(slide){
 		$("#img_thumbnails")
 			.append($("<img/>")
@@ -76,6 +75,7 @@ var DSAViewer = (function() {
 			.addClass("img-thumbnail")
 			.click(function(){
 				selectedImageId = slide.id;
+				$("#image_id_display").html(selectedImageId);
 				viewer.open(slide.filename_url);
 
 				//Update the image Id for the layer controller
