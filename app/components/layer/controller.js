@@ -1,6 +1,6 @@
 //Define a controller for layers
 //Add root scope dependency
-app.controller("layersCtrl", function($scope){
+app.controller("layersCtrl", function($scope, $window, markupService){
 
 	//Define scope variables
 	$scope.layers = [];
@@ -48,6 +48,14 @@ app.controller("layersCtrl", function($scope){
 	 * @param {Number} index (layer index or ID)
 	 */
 	$scope.remove = function(index){
+		var markups = $scope.layers[index].markups;
+		for(var i in markups){
+			markup = markups[i];
+			var antIndex = markupService.getAnnotationIndex(markup.data.index);
+			$window.annotationState.annotations.splice(antIndex, 1);
+			markup.detach();
+		}
+
 		$scope.layers.splice(index, 1);
 	};
 
