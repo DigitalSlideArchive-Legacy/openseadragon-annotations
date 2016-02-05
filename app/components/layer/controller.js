@@ -1,6 +1,6 @@
 //Define a controller for layers
 //Add root scope dependency
-app.controller("layersCtrl", function($scope, $window, markupService){
+app.controller("layersCtrl", function($scope, $window, $http, markupService){
 
 	//Define scope variables
 	$scope.layers = [];
@@ -88,4 +88,41 @@ app.controller("layersCtrl", function($scope, $window, markupService){
 		var obj = {layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex};
 		$scope.$broadcast('layers', obj);
 	};
+
+	/**
+	 * Clean the layers data structure
+	 *   1. Remove empty layers
+	 *   2. Only include the "data" field for each markup
+	 **/ 
+	$scope.cleanup = function(){
+		var data = [];
+		var i = 0;
+
+		angular.forEach($scope.layers, function(layer, index){
+			if(Object.keys(layer.markups).length > 0){
+				data[i] = $.extend({}, layer);
+				data[i].markups = [];
+
+				angular.forEach(layer.markups, function(markup, markupIndex){
+					data[i].markups.push(angular.copy(markup.data));
+				});
+				i++;
+			}
+		});
+
+		return data;
+	};
+
+	/**
+	 * Save the layers to a remote database
+	 */
+	$scope.save = function(){
+		var data = $scope.cleanup();
+		
+		$http({
+			method: 'POST',
+			url: 'http://cloudeval.neuro.emory.edu:5003/annotations',
+			data: data
+		});
+	}
 });
