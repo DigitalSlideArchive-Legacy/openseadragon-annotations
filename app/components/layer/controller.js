@@ -134,7 +134,8 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 			method: 'GET',
 			url: 'http://localhost:5003/annotations?user_id=Guest&image_id=TCGA-06-0137-01A-01-BS1',
 		}).then(function successCallback(response){
-			
+			console.log(response.data.layers.markups);
+			$window.annotationState.loadAnnotations(response.data.layers.markups);
 		}, function errorCallback(response){
 
 		});
