@@ -7,13 +7,22 @@ dsa = Blueprint('dsa', __name__)
 
 @dsa.route('/annotations', methods=['POST','OPTIONS'])
 def add_annotation():
-	ant = db.annotations
+	ants = db.annotations
+	layers = db.layers
+	layer_ids = []
 
 	if request.json == None:
 		return jsonify({"status": "failure", "code": 404})
 
 	for a in request.json:
-		ant.insert_one(a)
+		layer_id = ants.insert_one(a).inserted_id
+		layer_ids.append(layer_id)
+
+	layers.insert_one({
+		"createdBy": request.json[0]['createdBy'],
+		"imageId": request.json[0]['imageId'],
+		"layers": layer_ids
+	})
 
 	return jsonify({"status": "created", "code": 201})
 
@@ -21,6 +30,12 @@ def add_annotation():
 def get_annotation():
 	created_by = request.args.get("user_id")
 	image_id = request.args.get("image_id")
-	annotation = db.annotations.find({"createdBy": created_by, "imageId": image_id}).sort([("_id", 1)]).limit(1)[0]
-	annotation['_id'] = str(annotation['_id'])
-	return jsonify({"status": "success", "code": 200, "layers": annotation})
+	data = db.layers.find({"createdBy": created_by, "imageId": image_id}).sort([("_id", 1)]).limit(1)[0]
+	layers = []
+
+	for layer_id in data['layers']:
+		ant = db.annotations.find_one({"_id": layer_id})
+		ant['_id'] = str(ant['_id'])
+		layers.append(ant)
+
+	return jsonify({"status": "success", "code": 200, "layers": layers})
