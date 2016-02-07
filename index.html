@@ -412,7 +412,7 @@
 						<div class="col-md-4" ng-controller="markupCtrl" id="markup_ng_controller" style="padding-left:0">
 							<h4 style="text-align:center">Layer Markups</h4><hr/>
 							<table class="table table-striped">
-							<tr ng-repeat="markup in activeLayer.markups">
+							<tr ng-repeat="markup in activeLayer.markups track by markup.data.index">
 								<td>{{markup.data.type}} ({{markup.data.index}})</td>
 								<td><input class="form-control" colorpicker ng-model="markup.data.color" type="text" size="7" ng-change="update(markup);"/></td>
 								<td><div style="height:20px;width:20px;background-color:{{markup.data.color}};"></div></td>

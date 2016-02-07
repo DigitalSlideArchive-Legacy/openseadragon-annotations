@@ -150,8 +150,11 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.load = function(){
 		$http({
 			method: 'GET',
-			url: 'http://localhost:5003/annotations?user_id=Guest&image_id='+$scope.options.imageId,
+			url: 'http://localhost:5003/annotations',
+			params: {user_id: "Guest", image_id: $scope.options.imageId}
 		}).then(function successCallback(response){
+			if(response.data.code == 404) return;
+
 			var markups = [];
 			angular.forEach(response.data.layers, function(layer, index){
 				angular.forEach(layer.markups, function(markup, junk){
