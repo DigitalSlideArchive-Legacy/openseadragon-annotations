@@ -82,7 +82,7 @@
 			<div class="col-md-3" ng-controller="imageCtrl" id="image_ng_controller">
 				<div class="row" ng-repeat="image in images">
 					<div class="col-md-12" id="img_thumbnails">
-						<img src="{{image.file_thumbnail}}" class="img-thumbnail" ng-click="update(image)"/>
+						<img ng-src="{{image.file_thumbnail}}" class="img-thumbnail" ng-click="update(image)"/>
 					</div>
 				</div>
 			</div>

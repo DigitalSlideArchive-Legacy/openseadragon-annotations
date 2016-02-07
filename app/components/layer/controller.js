@@ -27,7 +27,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 
 	$scope.$on('activeImageId', function(events, args){
 		$scope.options.imageId = args;
-		//$scope.save();
+		$scope.save();
 		$scope.clear();
 		$scope.load();
 	});
@@ -135,11 +135,13 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.save = function(){
 		var data = $scope.cleanup($scope.layers);
 		
-		$http({
-			method: 'POST',
-			url: 'http://localhost:5003/annotations',
-			data: data
-		});
+		if(data.length){
+			$http({
+				method: 'POST',
+				url: 'http://localhost:5003/annotations',
+				data: data
+			});
+		}
 	};
 
 	/**
@@ -148,7 +150,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.load = function(){
 		$http({
 			method: 'GET',
-			url: 'http://localhost:5003/annotations?user_id=Guest&image_id=TCGA-02-0034-01A-02-BS2',
+			url: 'http://localhost:5003/annotations?user_id=Guest&image_id='+$scope.options.imageId,
 		}).then(function successCallback(response){
 			var markups = [];
 			angular.forEach(response.data.layers, function(layer, index){
@@ -164,7 +166,6 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 				angular.forEach(layer.markups, function(markup, index1){
 					delete $scope.layers[index].markups[index1];
 					$scope.layers[index].markups[markup.index] = $window.annotationState.annotations[markup.index];
-					console.log($scope.layers[index].markups);
 				})
 			});
 
