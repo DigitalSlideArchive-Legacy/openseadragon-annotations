@@ -11,7 +11,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 		id: null,
 		name: $scope.index,
 		description: null,
-		imageId: "Unknown",
+		imageId: null,
 		createdBy: "Guest",
 		createdTime: null,
 		attributes: {},
@@ -23,6 +23,13 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.$on('layers', function(events, args){
 		$scope.layers = args.layers;
 		$scope.activeLayerIndex = args.activeLayerIndex;
+	});
+
+	$scope.$on('activeImageId', function(events, args){
+		$scope.options.imageId = args;
+		//$scope.save();
+		$scope.clear();
+		$scope.load();
 	});
 
 	/**
@@ -37,8 +44,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 				);
 		
 		$scope.layers.push(opt);
-		var obj = {layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex};
-		$scope.$broadcast('layers', obj);
+		$scope.broadcastLayers();
 		$scope.index++;
 		$scope.options.name = $scope.index;
 	};
@@ -84,9 +90,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.setActiveLayer = function(index){
 		$scope.activeLayerIndex = index;
 		$scope.activeLayer = $scope.layers[$scope.activeLayerIndex];
-		
-		var obj = {layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex};
-		$scope.$broadcast('layers', obj);
+		$scope.broadcastLayers();
 	};
 
 	/**
@@ -114,10 +118,22 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	};
 
 	/**
+	 * Clear all layers and markups
+	 **/
+	$scope.clear = function(){
+		$scope.layers = [];
+		$scope.index = 0;
+		$scope.options.name = 0;
+		$scope.activeLayerIndex = 0;
+		$window.annotationState.clearAnnotations();
+		$scope.activeLayer = null;
+	}
+
+	/**
 	 * Save the layers to a remote database
 	 */
 	$scope.save = function(){
-		var data = $scope.cleanup();
+		var data = $scope.cleanup($scope.layers);
 		
 		$http({
 			method: 'POST',
@@ -132,12 +148,34 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.load = function(){
 		$http({
 			method: 'GET',
-			url: 'http://localhost:5003/annotations?user_id=Guest&image_id=TCGA-06-0137-01A-01-BS1',
+			url: 'http://localhost:5003/annotations?user_id=Guest&image_id=TCGA-02-0034-01A-02-BS2',
 		}).then(function successCallback(response){
-			console.log(response.data.layers.markups);
-			$window.annotationState.loadAnnotations(response.data.layers.markups);
+			var markups = [];
+			angular.forEach(response.data.layers, function(layer, index){
+				angular.forEach(layer.markups, function(markup, junk){
+					markups.push(markup);
+				})
+			});
+
+			$window.annotationState.loadAnnotations(markups);
+			$scope.layers = response.data.layers;
+
+			angular.forEach($scope.layers, function(layer, index){
+				angular.forEach(layer.markups, function(markup, index1){
+					delete $scope.layers[index].markups[index1];
+					$scope.layers[index].markups[markup.index] = $window.annotationState.annotations[markup.index];
+					console.log($scope.layers[index].markups);
+				})
+			});
+
+ 			$scope.setActiveLayer(0);
 		}, function errorCallback(response){
 
 		});
-	}
+	};
+
+	$scope.broadcastLayers = function(){
+		var obj = {layers: $scope.layers, activeLayerIndex: $scope.activeLayerIndex};
+		$scope.$broadcast('layers', obj);
+	};
 });

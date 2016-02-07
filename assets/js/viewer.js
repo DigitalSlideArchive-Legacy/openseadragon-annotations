@@ -40,6 +40,9 @@ var DSAViewer = (function() {
 			tileSources: slides[0].filename_url
 		});
 
+	$("#image_info").text(slides[0].id);  //TO DO:  Make this update with actual slide being shown!
+
+
 	viewer.scalebar({
 			type: OpenSeadragon.ScalebarType.MAP,
 			pixelsPerMeter: 20,
@@ -66,25 +69,8 @@ var DSAViewer = (function() {
 
 	//load the slide thumbnails
 	selectedImageId = slides[0].id;
-	$("#image_id_display").html(selectedImageId);
-
-	slides.forEach(function(slide){
-		$("#img_thumbnails")
-			.append($("<img/>")
-			.attr({src: slide.file_thumbnail})
-			.addClass("img-thumbnail")
-			.click(function(){
-				selectedImageId = slide.id;
-				$("#image_id_display").html(selectedImageId);
-				viewer.open(slide.filename_url);
-
-				//Update the image Id for the layer controller
-				layerScope.$apply(function () {
-					layerScope.options.imageId = selectedImageId;
-				});
-			})
-		)
-	});
+	//$("#image_id_display").html()
+	
 
     // Example SVG annotation overlay.  We use these observables to keep the example annotation sync'd with the image zoom/pan
     var annoGroupTranslateX = ko.observable(0.0),

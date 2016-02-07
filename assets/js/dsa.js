@@ -1,5 +1,6 @@
 var markupScope;
-var layerScope
+var layerScope;
+var imageScope;
 
 $(document).ready(function(){
 	var viewer = DSAViewer.getViewer();
@@ -10,10 +11,7 @@ $(document).ready(function(){
 	//Layer andmarkup scope
 	markupScope = angular.element(document.getElementById("markup_ng_controller")).scope();
 	layerScope = angular.element(document.getElementById("layer_ng_controller")).scope();
-
-	layerScope.$apply(function () {
-		layerScope.options.imageId = selectedImageId;
-	});
+	imageScope = angular.element(document.getElementById("image_ng_controller")).scope();
 
 	$(annotationState).on("annotationAdded", function(e) {
 		//Add new markup

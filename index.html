@@ -79,9 +79,11 @@
 	<div class="container-fluid full-height">
 		<!--Row #1: image thumbnail, image viewer and zoom-->
 		<div class="row full-height">
-			<div class="col-md-3">
-				<div class="row">
-					<div class="col-md-12" id="img_thumbnails"></div>
+			<div class="col-md-3" ng-controller="imageCtrl" id="image_ng_controller">
+				<div class="row" ng-repeat="image in images">
+					<div class="col-md-12" id="img_thumbnails">
+						<img src="{{image.file_thumbnail}}" class="img-thumbnail" ng-click="update(image)"/>
+					</div>
 				</div>
 			</div>
 
@@ -434,6 +436,7 @@
 <script src="app/components/layer/controller.js"></script>
 <script src="app/components/markup/controller.js"></script>
 <script src="app/components/markup/service.js"></script>
+<script src="app/components/image/controller.js"></script>
 <script src="assets/libs/bootstrap-colorpicker-module.js"></script>
 </body>
 </html>
