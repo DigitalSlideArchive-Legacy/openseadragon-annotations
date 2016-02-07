@@ -30,11 +30,17 @@ def add_annotation():
 def get_annotation():
 	created_by = request.args.get("user_id")
 	image_id = request.args.get("image_id")
-	data = db.layers.find({"createdBy": created_by, "imageId": image_id}, {"_id": 0}).sort([("_id", 1)]).limit(1)[0]
 	layers = []
 
-	for layer_id in data['layers']:
-		ant = db.annotations.find_one({"_id": layer_id}, {"_id": 0})
-		layers.append(ant)
+	data = db.layers.find({"createdBy": created_by, "imageId": image_id}, {"_id": 0}).sort([("_id", 1)]).limit(1)
+	
+	if data.count() > 0:
+		data = data[0]
 
-	return jsonify({"status": "success", "code": 200, "layers": layers})
+		for layer_id in data['layers']:
+			ant = db.annotations.find_one({"_id": layer_id}, {"_id": 0})
+			layers.append(ant)
+
+		return jsonify({"status": "success", "code": 200, "layers": layers})
+	
+	return jsonify({"status": "success", "code": 404})
