@@ -27,7 +27,6 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 
 	$scope.$on('activeImageId', function(events, args){
 		$scope.options.imageId = args;
-		$scope.save();
 		$scope.clear();
 		$scope.load();
 	});

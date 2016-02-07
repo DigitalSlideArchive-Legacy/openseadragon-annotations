@@ -339,8 +339,12 @@
 		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		             <h4 class="modal-title">Annotations</h4>
 		        </div>
-		        <div class="modal-body" style="margin:0;padding:0 0px 0 15px">
-					<div class="row" ng-controller="layersCtrl" id="layer_ng_controller">
+		        <div 
+					class="modal-body" 
+					style="margin:0;padding:0 0px 0 15px" 
+					ng-controller="layersCtrl" 
+					id="layer_ng_controller">
+					<div class="row">
 
 						<!-- Layers -->
 						<div class="col-md-4" style="border-right:1px solid gray;min-height:400px;padding:0">
@@ -420,6 +424,11 @@
 								<td><a href ng-click="remove(markup.data.index)"><span class="glyphicon glyphicon-remove"></a</td>
 							</tr>
 					 		</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" style="text-align:center;padding:5px 0 5px 0;background-color:#F2F2F2">
+							<button type="button" class="btn btn-success" ng-click="save()">Save Layers and Markups</button>
 						</div>
 					</div>
 		        </div>
