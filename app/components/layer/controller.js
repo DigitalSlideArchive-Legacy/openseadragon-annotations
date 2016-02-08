@@ -137,7 +137,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 		if(data.length){
 			$http({
 				method: 'POST',
-				url: 'http://localhost:5003/annotations',
+				url: 'http://cloudeval.neuro.emory.edu:5003/annotations',
 				data: data
 			});
 		}
@@ -149,7 +149,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.load = function(){
 		$http({
 			method: 'GET',
-			url: 'http://localhost:5003/annotations',
+			url: 'http://cloudeval.neuro.emory.edu:5003/annotations',
 			params: {user_id: "Guest", image_id: $scope.options.imageId}
 		}).then(function successCallback(response){
 			if(response.data.code == 404) return;
@@ -165,6 +165,8 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 			$scope.layers = response.data.layers;
 
 			angular.forEach($scope.layers, function(layer, index){
+				$scope.index++;
+
 				angular.forEach(layer.markups, function(markup, index1){
 					delete $scope.layers[index].markups[index1];
 					$scope.layers[index].markups[markup.index] = $window.annotationState.annotations[markup.index];
