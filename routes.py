@@ -32,7 +32,7 @@ def get_annotation():
 	image_id = request.args.get("image_id")
 	layers = []
 
-	data = db.layers.find({"createdBy": created_by, "imageId": image_id}, {"_id": 0}).sort([("_id", 1)]).limit(1)
+	data = db.layers.find({"createdBy": created_by, "imageId": image_id}, {"_id": 0}).sort([("_id", -1)]).limit(1)
 	
 	if data.count() > 0:
 		data = data[0]

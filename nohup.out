@@ -1,0 +1,33 @@
+ * Running on http://0.0.0.0:5003/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger pin code: 631-397-958
+10.40.54.49 - - [09/Feb/2016 10:22:56] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:22:57] "GET /annotations?image_id=TCGA-02-0034-01A-02-BS2&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:22:58] "GET /annotations?image_id=TCGA-02-0002-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:23:53] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:24:39] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:24:39] "GET /annotations?image_id=TCGA-02-0034-01A-02-BS2&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:24:39] "GET /annotations?image_id=TCGA-02-0002-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:24:39] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:24:39] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:28:33] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:30:16] "GET /annotations?image_id=TCGA-02-0034-01A-02-BS2&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:30:17] "GET /annotations?image_id=TCGA-02-0002-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:30:17] "GET /annotations?image_id=TCGA-02-0034-01A-02-BS2&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:30:17] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:32:41] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:35:55] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:43:02] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:43:24] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:57:52] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:57:53] "GET /annotations?image_id=TCGA-02-0034-01A-02-BS2&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:57:56] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:00] "OPTIONS /annotations HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:00] "POST /annotations HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:02] "GET /annotations?image_id=TCGA-02-0034-01A-02-BS2&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:03] "GET /annotations?image_id=TCGA-02-0002-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:04] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:13] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:16] "GET /annotations?image_id=TCGA-02-0034-01A-02-BS2&user_id=Guest HTTP/1.1" 200 -
+10.40.54.49 - - [09/Feb/2016 10:59:17] "GET /annotations?image_id=TCGA-06-0137-01A-01-BS1&user_id=Guest HTTP/1.1" 200 -
