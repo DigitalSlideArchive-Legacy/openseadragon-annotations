@@ -162,16 +162,19 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 			});
 
 			$window.annotationState.loadAnnotations(markups);
-			$scope.layers = response.data.layers;
+			
+			for(var i=0; i < response.data.layers.length; i++){
+				var layer = response.data.layers[i];
+				$scope.layers.push(layer);
+				var markups = $.extend([], layer.markups);
+				$scope.layers[i].markups = {};
 
-			angular.forEach($scope.layers, function(layer, index){
-				$scope.index++;
-
-				angular.forEach(layer.markups, function(markup, index1){
-					delete $scope.layers[index].markups[index1];
-					$scope.layers[index].markups[markup.index] = $window.annotationState.annotations[markup.index];
-				})
-			});
+				for(var j=0; j < markups.length; j++){
+					var index = markups[j].index;
+					var antIndex = markupService.getAnnotationIndex(index);
+					$scope.layers[i].markups[index] = $window.annotationState.annotations[antIndex];
+				}
+			}
 
  			$scope.setActiveLayer(0);
 		}, function errorCallback(response){
