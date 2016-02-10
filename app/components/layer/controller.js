@@ -1,6 +1,6 @@
 //Define a controller for layers
 //Add root scope dependency
-app.controller("layersCtrl", function($scope, $window, $http, markupService){
+app.controller("layersCtrl", function($scope, $window, $http, markupService, api){
 
 	//Define scope variables
 	$scope.layers = [];
@@ -137,7 +137,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 		if(data.length){
 			$http({
 				method: 'POST',
-				url: 'http://cloudeval.neuro.emory.edu:5003/annotations',
+				url: api.url + ':' + api.port + '/annotations',
 				data: data
 			});
 		}
@@ -149,7 +149,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService){
 	$scope.load = function(){
 		$http({
 			method: 'GET',
-			url: 'http://cloudeval.neuro.emory.edu:5003/annotations',
+			url: api.url + ':' + api.port + '/annotations',
 			params: {user_id: "Guest", image_id: $scope.options.imageId}
 		}).then(function successCallback(response){
 			if(response.data.code == 404) return;
