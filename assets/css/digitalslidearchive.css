@@ -1,0 +1,110 @@
+/*html and body need 100% as parent layers to allow child layers 100% height*/
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+	padding-top: 50px;
+} 
+
+/*This required to force the layer to 100% height*/
+.full-height {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+#image_viewer{
+	width:100%;
+	
+	/*http://stackoverflow.com/questions/2434602/css-setting-width-height-as-percentage-minus-pixels*/
+	/*for the height subtract the height of the toolbar*/
+	height: calc(100% - 50px);
+}
+
+#img_thumbnails{
+	padding-top:10px;
+}
+
+.top_buffer{ 
+	margin-top:20px; 
+}
+
+.btn-primary img{
+	width: 20px;
+}
+
+.annot_delete_icon{
+	width:20px;
+}
+
+.panel-scroll {
+    max-height: 400px;
+	overflow: hidden;
+	overflow-y: auto;
+  }
+
+.image_viewer_toolbar
+{
+    height:     33px;
+    border:     none;
+    color:      #333;
+    padding:    4px;
+    background-color: transparent;
+}
+
+.image_viewer_toolbar.fullpage{
+    width:      100%;
+    border:     none;
+    position:   fixed;
+    z-index:    999999;
+    left:       0;
+    top:        0;
+    background-color: #ccc;
+}
+
+/*Viewport properties window style*/
+#viewport_properties_modal{
+	width:300px
+}
+
+#viewport_properties_modal .modal-dialog {
+  height: 92%;
+  width:300px;
+  padding: 0;
+}
+
+#viewport_properties_modal .modal-content {
+  height: 99%;
+}
+
+#viewport_properties_modal .modal-body {
+	height: 90%;
+    overflow-y: scroll;
+}
+
+/*Annotations window style*/
+#annotations_modal{
+	width:500px;
+	height: 600px;
+}
+
+#annotations_modal .modal-dialog {
+  width:500px;
+  padding: 0;
+}
+
+#annotations_modal .modal-body {
+	height: 300px;
+    overflow-y: scroll;
+}
+
+#annotations_modal .modal-body {
+	height: 280px;
+}
+
+.active_layer {
+    background-color:#EFEAEA;
+    color:white;
+    font-weight:bold;
+}

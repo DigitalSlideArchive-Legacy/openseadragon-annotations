@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html ng-app="dsa">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>DSA OSD Annotations DevEnv</title>
+
+	<!-- Include Jquery from CDN -->
+	<script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+
+	<!-- Include Bootstrap from CDN -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    
+	<!-- knockout is used by openseadragon image helper -->
+	<script src="assets/libs/knockout-3.0.0.js"></script>
+	<script src="assets/libs/openseadragon.min.js"></script>
+
+	<!-- Used to add the scale bar to the openseadragon viewer -->
+	<script src="assets/libs/openseadragon-scalebar.js"></script>
+
+	<!-- Used to get viewer properties such as zoom -->
+	<script src="assets/libs/openseadragon-imaginghelper.min.js"></script>
+	<script src="assets/libs/openseadragon-viewerinputhook.min.js"></script>
+
+	<!-- Used for the cool on/off switch -->
+	<script src="assets/libs/bootstrap-switch.js"></script>
+
+	<!-- Annotation scripts -->
+	<script type="text/javascript" src="assets/js/annotations.js"></script>
+	<script type="text/javascript" src="assets/js/annotationState_control_functions.js"></script>
+	<script type="text/javascript" src="assets/js/openseadragon_setup_functions.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap-switch.js"></script>
+	<script type="text/javascript" src="assets/js/mousetrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/colornames_to_hex_hash.js"></script>
+
+	<!-- Angular JS -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+
+	<!-- Style for the cool on/off switch -->
+	<link href="assets/css/colorpicker.css" rel="stylesheet">
+	<link href="assets/css/bootstrap-switch.css" rel="stylesheet">
+	<link href="assets/css/digitalslidearchive.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <script>
+		slides = [
+			{'file_thumbnail': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif', 'filename_url': 'http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif.dzi', 'id': 'TCGA-06-0137-01A-01-BS1'},
+			 {"file_thumbnail": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0034-01A-02-BS2.svs.dzi.tif", "prep_type": "FrozenSection", "pyramid_w_path": "/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0034-01A-02-BS2.svs.dzi.tif", "filename_url": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0034-01A-02-BS2.svs.dzi.tif.dzi", "id": "TCGA-02-0034-01A-02-BS2","pyramid_base_name": "TCGA-02-0034-01A-02-BS2.svs.dzi.tif"},
+			  {"file_thumbnail": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif", "prep_type": "FrozenSection", "pyramid_w_path": "/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif", "filename_url": "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-02-0002-01A-01-BS1.svs.dzi.tif.dzi", "id": "TCGA-02-0002-01A-01-BS1",  "pyramid_base_name": "TCGA-02-0002-01A-01-BS1.svs.dzi.tif"}];
+    </script>
+
+	<!-- Fixed navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"></a>
+                    <a class="navbar-brand" href="#">
+						<img src="assets/img/CDSA_Slide_50.png" style="float:left;margin-top:-10px" height="40" />
+						DSA Annotations DevSite
+					</a>
+            </div>
+        </div>
+    </nav>
+    
+	<!-- Begin page content -->
+	<div class="container-fluid full-height">
+		<!--Row #1: image thumbnail, image viewer and zoom-->
+		<div class="row full-height">
+			<div class="col-md-3" ng-controller="imageCtrl" id="image_ng_controller">
+				<div class="row" ng-repeat="image in images">
+					<div class="col-md-12" id="img_thumbnails">
+						<img ng-src="{{image.file_thumbnail}}" class="img-thumbnail" ng-click="update(image)"/>
+					</div>
+				</div>
+			</div>
+
+            <div class="col-md-9 full-height">
+				<div id="image_viewer_toolbar" class="toolbar" style="height:35px">
+					<div 
+						id="wsi_active_shape" 
+						class="btn-group drawing_shape" 
+						data-toggle="buttons-radio" 
+						style="float:left;margin-right:5px">
+			        	<button id="circle" type="button" class="btn btn-primary osd_drawctrl">
+							<img src="assets/img/drawicons/circle.png">
+			        	</button>
+						<button id="rect" type="button" class="btn btn-primary">
+							<img src="assets/img/drawicons/square.png" />
+						</button>
+						<button id="polygon" type="button" class="btn btn-primary">
+							<img src="assets/img/drawicons/polyline_v1.png"/> 
+						</button>
+						<button id="poi" type="button" class="btn btn-primary" style="height:35px">
+							<img src="assets/img/drawicons/Pin1_Blue.png"/>
+						</button>              
+					</div>
+			
+					<div 
+						id="wsi_paint_color" 
+						class="btn-group paint_color" 
+						data-toggle="buttons-radio" 
+						style="float:left;margin-right:5px"">
+						<button id="red" type="button" class="btn btn-primary">
+							<div style="border:10px solid red"></div>
+						</button>
+						<button id="green" type="button" class="btn btn-primary">
+							<div style="border:10px solid green"></div>
+						</button>
+						<button id="blue" type="button" class="btn btn-primary">
+							<div style="border:10px solid blue"></div>
+						</button>
+						<button id="yellow" type="button" class="btn btn-primary">
+							<div style="border:10px solid yellow"></div>
+						</button>
+					</div>
+
+					<div 
+						class="drawing_switch" 
+						data-on="danger" 
+						data-off="warning" 
+						style="float:left">
+						<input type="checkbox">
+					</div>
+			
+					<div style='float:left;margin:0px 20px 0 0'>
+						<a href="#layers_modal" data-backdrop="false" data-toggle="modal">
+							<img src="assets/img/annotations.png" height="32px">
+						</a> 
+						<a href="#viewport_properties_modal" data-backdrop="false" data-toggle="modal">
+							<img src="assets/img/info.png" height="32px">
+						</a>
+						<a href="#aperio_import_modal" data-backdrop="false" data-toggle="modal">
+							Aperio Import
+						</a> 
+					</div>
+
+					<div data-bind="with: outputVM" style='float:left'>
+						<span><img src="assets/img/zoom.png" height="30px"></span>
+						<span data-bind="text: haveImage() ? OsdZoom().toFixed( 1 ) : '-'"></span>
+					</div>
+
+					<div style='float:left' id="image_id_display"></div>
+				</div>
+				<div id="image_viewer"></div>
+			</div>
+		</div>
+	</div>
+
+	<!--Viewport properties draggable modal-->
+	<div id="viewport_properties_modal" class="modal fade">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Viewport properties</h4>
+
+		        </div>
+		        <div class="modal-body">
+		            <div data-bind="with: outputVM" >
+                                <div class="propcontainer">
+                                    <span>Image Width:</span><span data-bind="text: haveImage() ? imgWidth().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Image Height:</span><span data-bind="text: haveImage() ? imgHeight().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Image Aspect Ratio (w/h):</span><span data-bind="text: haveImage() ? imgAspectRatio().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Min Zoom Factor:</span><span data-bind="text: haveImage() ? minZoom().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Max Zoom Factor:</span><span data-bind="text: haveImage() ? maxZoom().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">OSD Viewport</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getContainerSize().x:</span><span data-bind="text: haveImage() ? OsdContainerWidth().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getContainerSize().y:</span><span data-bind="text: haveImage() ? OsdContainerHeight().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getZoom():</span><span data-bind="text: haveImage() ? OsdZoom().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().x:</span><span data-bind="text: haveImage() ? OsdBoundsX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().y:</span><span data-bind="text: haveImage() ? OsdBoundsY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().width:</span><span data-bind="text: haveImage() ? OsdBoundsWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getBounds().height:</span><span data-bind="text: haveImage() ? OsdBoundsHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">OSD MouseTracker</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getMousePosition().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getMousePosition().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getElementOffset().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdElementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>osd.getElementOffset().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdElementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getMouseRelative().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>getMouseRelative().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">Zoom and Pan</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>zoomFactor:</span><span data-bind="text: haveImage() ? zoomFactor().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportWidth:</span><span data-bind="text: haveImage() ? viewportWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportHeight:</span><span data-bind="text: haveImage() ? viewportHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportOrigin.x:</span><span data-bind="text: haveImage() ? viewportOriginX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportOrigin.y:</span><span data-bind="text: haveImage() ? viewportOriginY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportCenter.x:</span><span data-bind="text: haveImage() ? viewportCenterX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>_viewportCenter.y:</span><span data-bind="text: haveImage() ? viewportCenterY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">Coordinate Conversions (screen/data)</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse X:</span><span data-bind="text: (haveImage() && haveMouse()) ? mousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? mousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Element X:</span><span data-bind="text: (haveImage() && haveMouse()) ? elementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Element Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? elementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse Relative X:</span><span data-bind="text: (haveImage() && haveMouse()) ? mouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>Mouse Relative Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? mouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToLogicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToLogicalX().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToLogicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToLogicalY().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToPhysicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? logicalToPhysicalX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToPhysicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? logicalToPhysicalY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToDataX():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToDataX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>physicalToDataY():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToDataY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToPhysicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? dataToPhysicalX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToPhysicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? dataToPhysicalY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propheadercontainer">
+                                    <span class="propheadertext">Coordinate Conversions (data/data)</span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataX() (Top Left):</span><span data-bind="text: haveImage() ? logicalToDataTLX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataY() (Top Left):</span><span data-bind="text: haveImage() ? logicalToDataTLY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataX() (Bottom Right):</span><span data-bind="text: haveImage() ? logicalToDataBRX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>logicalToDataY() (Bottom Right):</span><span data-bind="text: haveImage() ? logicalToDataBRY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalX() (Top Left):</span><span data-bind="text: haveImage() ? dataToLogicalTLX().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalY() (Top Left):</span><span data-bind="text: haveImage() ? dataToLogicalTLY().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalX() (Bottom Right):</span><span data-bind="text: haveImage() ? dataToLogicalBRX().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+                                <div class="propcontainer">
+                                    <span>dataToLogicalY() (Bottom Right):</span><span data-bind="text: haveImage() ? dataToLogicalBRY().toFixed(4) : '-'" class="propvaluetext"></span>
+                                </div>
+					</div>
+		        </div>
+		    </div>
+		    <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<div id="layers_modal" class="modal fade layers_modal" style="margin-left:10%;width:80%">
+		<div class="modal-dialog" style="width:100%">
+		    <div class="modal-content">
+		        <div class="modal-header" style="background-color:#F5B44E">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Annotations</h4>
+		        </div>
+		        <div 
+					class="modal-body" 
+					style="margin:0;padding:0 0px 0 15px" 
+					ng-controller="layersCtrl" 
+					id="layer_ng_controller">
+					<div class="row">
+
+						<!-- Layers -->
+						<div class="col-md-4" style="border-right:1px solid gray;min-height:400px;padding:0">
+							<h4 style="text-align:center">Layers</h4><hr/>
+							<form class="form-inline" style="margin-bottom:10px;">
+								<fieldset class="form-group">
+									<label for="new_layer_name">New layer:</label>
+									<input type="text" class="form-control" id="new_layer_name"
+										ng-model="options.name" style="width:100px"/>
+									<button type="button" class="btn btn-primary btn-sm" ng-click="add()" style="margin-left:5px">Add</button>
+								</fieldset>
+							</form>
+							<table class="table" ng-show="layers.length" style="width:100%">
+								<tr 
+									ng-repeat="layer in layers track by $index" 
+									ng-click="setActiveLayer($index)"
+									ng-class="{'active_layer':$index == activeLayerIndex}">
+									<td>{{layer.name}}</td>
+									<td style="width:50px">
+										<a href ng-click="remove($index)"><span class="glyphicon glyphicon-remove"></span>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<!-- Active layer details -->
+						<div class="col-md-4" style="border-right:1px solid gray;min-height:400px;padding:0">
+							<h4 style="text-align:center">Layer Details</h4><hr/>
+							<form>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Layer ID:</label> 
+									<span>{{activeLayer.id}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Image ID:</label> 
+									<span>{{activeLayer.imageId}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Created by:</label> 
+									<span>{{activeLayer.createdBy}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Time:</label> 
+									<span>{{activeLayer.createdTime}}</span>
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id" style="float:left">Color:</label>
+									<input 
+											class="form-control" 
+											colorpicker 
+											ng-model="activeLayer.color" 
+											type="text" style="width:100px;float:left"/>
+									<div style="float:left;height:30px;width:30px;background-color:{{activeLayer.color}};"></div>
+									<button type="button" class="btn btn-primary btn-sm" ng-click="update()" style="margin-left:5px">Apply to Markups</button>
+									
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Name:</label>
+									<input type="text" class="form-control" ng-model="activeLayer.name" ng-blur="update()">
+								</fieldset>
+								<fieldset class="form-group" style="margin:0">
+									<label for="layer_id">Description:</label>
+									<input type="text" class="form-control" 
+									ng-model="activeLayer.description" ng-blur="update()">
+								</fieldset>
+							</form>
+						</div>
+
+						<div class="col-md-4" ng-controller="markupCtrl" id="markup_ng_controller" style="padding-left:0">
+							<h4 style="text-align:center">Layer Markups</h4><hr/>
+							<table class="table table-striped">
+							<tr ng-repeat="markup in activeLayer.markups track by markup.data.index">
+								<td>{{markup.data.type}} ({{markup.data.index}})</td>
+								<td><input class="form-control" colorpicker ng-model="markup.data.color" type="text" size="7" ng-change="update(markup);"/></td>
+								<td><div style="height:20px;width:20px;background-color:{{markup.data.color}};"></div></td>
+								<td><input type="text" class="form-control" ng-model="markup.data.name" ng-blur="update(markup)"></td>
+								<td><a href ng-click="remove(markup.data.index)"><span class="glyphicon glyphicon-remove"></a</td>
+							</tr>
+					 		</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" style="text-align:center;padding:5px 0 5px 0;background-color:#F2F2F2">
+							<button type="button" class="btn btn-success" ng-click="save()">Save Layers and Markups</button>
+						</div>
+					</div>
+		        </div>
+		    </div>
+		    <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	<!-- /.modal -->
+	</div>
+
+	<div id="aperio_import_modal" class="modal fade layers_modal" ng-controller="aperioCtrl">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header" style="background-color:#0275D8">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Import Aperio Annotations</h4>
+		        </div>
+		        <div 
+					class="modal-body" 
+					style="margin:0;padding:0 0px 0 15px">
+					<form>
+						<fieldset class="form-group" style="margin:10px">
+							<label for="layer_id">URL:</label>
+							<input type="text" class="form-control" ng-model="url">
+						</fieldset>
+						<fieldset class="form-group" style="margin:10px">
+							<button type="button" class="btn btn-success" ng-click="import()">Import</button>
+						</fieldset>
+					</form>
+				</div>
+		    </div>
+		    <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	<!-- /.modal -->
+	</div>
+
+<script src="assets/js/dsa.js"></script>
+<script src="assets/js/viewer.js"></script>
+<script src="app/app.module.js"></script>
+<script src="app/app.constant.js"></script>
+<script src="app/components/layer/controller.js"></script>
+<script src="app/components/layer/service.js"></script>
+<script src="app/components/markup/controller.js"></script>
+<script src="app/components/markup/service.js"></script>
+<script src="app/components/image/controller.js"></script>
+<script src="app/components/aperio/controller.js"></script>
+<script src="assets/libs/bootstrap-colorpicker-module.js"></script>
+</body>
+</html>
