@@ -7,7 +7,6 @@ app.controller("aperioCtrl", function($scope, $rootScope, $http, $window, layerS
 	$scope.import = function(){
 		$window.annotationState.clearAnnotations();
 		$scope.readXML();
-		//console.log($scope.layers);
 	};
 
 	$scope.readXML = function(){
