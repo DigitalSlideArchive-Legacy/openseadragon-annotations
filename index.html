@@ -135,6 +135,9 @@
 						<a href="#viewport_properties_modal" data-backdrop="false" data-toggle="modal">
 							<img src="assets/img/info.png" height="32px">
 						</a>
+						<a href="#aperio_import_modal" data-backdrop="false" data-toggle="modal">
+							Aperio Import
+						</a> 
 					</div>
 
 					<div data-bind="with: outputVM" style='float:left'>
@@ -432,6 +435,34 @@
 	<!-- /.modal -->
 	</div>
 
+	<div id="aperio_import_modal" class="modal fade layers_modal" ng-controller="aperioCtrl">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header" style="background-color:#0275D8">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		             <h4 class="modal-title">Import Aperio Annotations</h4>
+		        </div>
+		        <div 
+					class="modal-body" 
+					style="margin:0;padding:0 0px 0 15px">
+					<form>
+						<fieldset class="form-group" style="margin:10px">
+							<label for="layer_id">URL:</label>
+							<input type="text" class="form-control">
+						</fieldset>
+						<fieldset class="form-group" style="margin:10px">
+							<button type="button" class="btn btn-success">Import</button>
+						</fieldset>
+					</form>
+				</div>
+		    </div>
+		    <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	<!-- /.modal -->
+	</div>
+
+<script src="assets/js/dsa.js"></script>
 <script src="assets/js/viewer.js"></script>
 <script src="app/app.module.js"></script>
 <script src="app/app.constant.js"></script>
@@ -439,8 +470,7 @@
 <script src="app/components/markup/controller.js"></script>
 <script src="app/components/markup/service.js"></script>
 <script src="app/components/image/controller.js"></script>
+<script src="app/components/aperio/controller.js"></script>
 <script src="assets/libs/bootstrap-colorpicker-module.js"></script>
-<script type="text/javascript" src="assets/js/AperioAnnotationLib.js"></script>
-<script src="assets/js/dsa.js"></script>
 </body>
 </html>

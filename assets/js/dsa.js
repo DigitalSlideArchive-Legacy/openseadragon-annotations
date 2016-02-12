@@ -28,6 +28,10 @@ $(document).ready(function(){
 	$("#layers_modal").draggable({
 		handle: ".modal-header"
 	});
+
+	$("#aperio_import_modal").draggable({
+		handle: ".modal-header"
+	});
 });
 
 function importa(){
