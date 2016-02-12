@@ -448,10 +448,10 @@
 					<form>
 						<fieldset class="form-group" style="margin:10px">
 							<label for="layer_id">URL:</label>
-							<input type="text" class="form-control">
+							<input type="text" class="form-control" ng-model="url">
 						</fieldset>
 						<fieldset class="form-group" style="margin:10px">
-							<button type="button" class="btn btn-success">Import</button>
+							<button type="button" class="btn btn-success" ng-click="import()">Import</button>
 						</fieldset>
 					</form>
 				</div>
