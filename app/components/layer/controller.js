@@ -1,28 +1,21 @@
 //Define a controller for layers
 //Add root scope dependency
-app.controller("layersCtrl", function($scope, $window, $http, markupService, api){
+app.controller("layersCtrl", function($scope, $window, $http, markupService, api, layerService){
 
 	//Define scope variables
 	$scope.layers = [];
 	$scope.index = 0;
 	$scope.activeLayerIndex = 0;
-
-	$scope.options = {
-		id: null,
-		name: $scope.index,
-		description: null,
-		imageId: null,
-		createdBy: "Guest",
-		createdTime: null,
-		attributes: {},
-
-		//Place to hold all markups assigned to this layer
-		markups: {}
-	};
+	$scope.options = layerService.options;
 
 	$scope.$on('layers', function(events, args){
 		$scope.layers = args.layers;
 		$scope.activeLayerIndex = args.activeLayerIndex;
+	});
+
+	$scope.$on('aperioLayers', function(events, args){
+		$scope.layers = args;
+		$scope.activeLayerIndex = 0;
 	});
 
 	$scope.$on('activeImageId', function(events, args){
