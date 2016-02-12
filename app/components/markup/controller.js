@@ -43,9 +43,6 @@ app.controller("markupCtrl", function($scope, $window, markupService){
 	 * @param {Number} index
 	 */
 	$scope.remove = function(index){
-		console.log("markup index " + index);
-		//console.log($scope.layers[$scope.activeLayerIndex].markups[index]);
-
 		var antIndex = markupService.getAnnotationIndex(index);
 		$window.annotationState.annotations[antIndex].detach();
 		$window.annotationState.annotations.splice(antIndex, 1);
