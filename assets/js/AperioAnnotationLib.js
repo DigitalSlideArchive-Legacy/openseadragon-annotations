@@ -154,31 +154,57 @@ hex_color_set[8] = "#008000"; //lightergreen
 function aperio_vertex_to_osd(vertex_list_object, linecolor) {
     /*moving this part to a standalone function */
     $('Vertices', vertex_list_object).each(function() {
-        var data = [];
-        dzi_x_pixels = viewer.viewport.contentSize.x;
-        dzi_y_pixels = viewer.viewport.contentSize.y;
-        aspect_ratio = dzi_y_pixels / dzi_x_pixels;
         var data = new Array();
 
         $('Vertex', this).each(function() {
-            var row = new OpenSeadragon.Point();
-            row.x = (this.getAttribute("X") / (dzi_x_pixels));
-            row.y = (this.getAttribute("Y") / (dzi_y_pixels) * aspect_ratio);
-            data.push(row);
+			var row = new OpenSeadragon.Point();
+			row.x = (this.getAttribute("X"));
+			row.y = (this.getAttribute("Y"));
+			var x = DSAViewer.getViewer().viewport.imageToViewportCoordinates(row);
+			data.push(x);
         });
+		
         point_list = data;
-        var overlay_obj = $.extend({}, AnnotationOverlay.prototype.OPTIONS);
-        overlay_obj = {
+
+        //var overlay_obj = $.extend({}, AnnotationOverlay.prototype.OPTIONS);
+		var overlay_obj = {
+			id: null,
+			type: 'freehand',
+			index: 0,
+
+			label: "0",
+			points: point_list,
+
+			color: '#ff0000',
+			alpha: 1,
+			filled: false,
+			closed: false,
+			zoom_level: null,
+		
+			markup_for: null,
+		
+	// 		markup_image_name: null,
+	// 		markup_image_md5: null,
+			server_id: null,
+			annotation_timestamp: null,
+			annotation_revision_id: null,
+			ontology_or_termset_id: null,
+			browser_info: null,
+			markup_text: null,
+			addl_notes: null,
+			slide_id: null
+		};
+
+        /*overlay_obj = {
             type: 'freehand',
             points: point_list,
-            color: hex_color_set[Math.floor(Math.random() * 8)]
-        };
-
-
+            color: "#FF00FF", //hex_color_set[Math.floor(Math.random() * 8)],
+			label: "SS"
+        };*/
 
         overlay = AnnotationOverlay.fromValueObject(overlay_obj);
-        overlay.attachTo(viewer);
-        annotationState.annotations.push(overlay);
+        overlay.attachTo(DSAViewer.getViewer());
+		annotationState.annotations.push(overlay);
     });
 
 }

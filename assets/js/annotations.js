@@ -901,7 +901,7 @@ $.extend(AnnotationState.prototype, {
 				points: [point],
 				annotation_timestamp: new Date().getTime(),
 				markup_for: this.markupFor,
-				slide_id: $("#image_viewer").attr("slide-id")
+				slide_id: "" //$("#image_viewer").attr("slide-id")
 				// add any other common properties here
 			}
 		};

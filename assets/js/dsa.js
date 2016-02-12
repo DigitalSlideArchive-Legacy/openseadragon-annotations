@@ -29,3 +29,9 @@ $(document).ready(function(){
 		handle: ".modal-header"
 	});
 });
+
+function importa(){
+	sample_aperio_doc = "http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml";
+	var r = getAperioXML_document(sample_aperio_doc);
+	display_all_annotations_and_load_first_instance(r);
+}
