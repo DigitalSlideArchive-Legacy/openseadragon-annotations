@@ -36,6 +36,9 @@ The UI needs some work. Currently, the UI contains three modals:
 1. Markup drawing tools: you can select a shape and color
 2. Markup list: to list all annotations, udpate the color using a color picker and add markup name
 3. Layers list: a modal to add and update layers
+4. Import Aperio XML file to DSA
+5. Save markups and layers
+6. Load markups and layers
 
 Within the OSD code, I generate an instance of my anntoator called
 
@@ -79,8 +82,8 @@ Current working features
 
 New features to work on
 ---------------------------
-1. Save markups
-2. Load markups
+1. Load Aperio markups containing squares and circles
+2. Fix the color conversion from Aperio to Hex color codes
 
 
 openseadragon-annotations
