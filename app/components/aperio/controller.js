@@ -33,7 +33,7 @@ app.controller("aperioCtrl", function($scope, $rootScope, $http, $window, layerS
 			//for every annotation create a layers and add markups
 			$('Annotation', response.data).each(function() {
 				color = this.getAttribute("LineColor").toString(16);
-				color = (color.length < 6) ? "0" + color : color;
+				color = $scope.rgb2hex(color);
 
 				//we treat every region as a layer in DSA
 				$('Region', this).each(function() {
@@ -105,5 +105,18 @@ app.controller("aperioCtrl", function($scope, $rootScope, $http, $window, layerS
 		});
 
 		return markups;
+	};
+
+	/**
+	 * Convert RGB to HEX color codes
+	 */
+	$scope.rgb2hex = function (rgb) {
+		rgb = "0".repeat(9 - rgb.length) + rgb;
+		var r = parseInt(rgb.substring(0,3));
+		var g = parseInt(rgb.substring(3,3));
+		var b = parseInt(rgb.substring(7,3));
+    
+		var h = b | (g << 8) | (r << 16);
+		return '#' + "0".repeat(6 - h.toString(16).length) + h.toString(16);
 	}
 });
