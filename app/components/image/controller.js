@@ -18,7 +18,8 @@ app.controller("imageCtrl", function($rootScope, $scope, $window, $http){
 
 		//Broadcast the active image ID
 		$rootScope.$broadcast("activeImageId", img.id);
-		
 	}
+
+	
 });
 
