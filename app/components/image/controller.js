@@ -10,6 +10,18 @@ app.controller("imageCtrl", function($rootScope, $scope, $window, $http){
 	/**
 	 * Update the viewer when clicking on new image
 	 */
+	$scope.init = function(){
+		img = $scope.images[0];
+		$scope.activeImage = img;
+
+		angular.element(document).ready(function () {
+			$rootScope.$broadcast("activeImageId", img.id);
+		});
+	}
+
+	/**
+	 * Update the viewer when clicking on new image
+	 */
 	$scope.update = function(img){
 		//Set the active image
 		$scope.activeImage = img;

@@ -72,7 +72,7 @@
 	<div class="container-fluid full-height">
 		<!--Row #1: image thumbnail, image viewer and zoom-->
 		<div class="row full-height">
-			<div class="col-md-3" ng-controller="imageCtrl" id="image_ng_controller">
+			<div class="col-md-3" ng-controller="imageCtrl" id="image_ng_controller" ng-init="init()">
 				<div class="row" ng-repeat="image in images">
 					<div class="col-md-12" id="img_thumbnails">
 						<img ng-src="{{image.file_thumbnail}}" class="img-thumbnail" ng-click="update(image)"/>

@@ -20,9 +20,21 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService, api
 
 	$scope.$on('activeImageId', function(events, args){
 		$scope.options.imageId = args;
+		$scope.init();
+	});
+
+	/**
+	 * 
+	 */
+	$scope.init = function(){
 		$scope.clear();
 		$scope.load();
-	});
+
+		if($scope.layers.length == 0){
+			$scope.add();
+			$scope.setActiveLayer(0);
+		}
+	}
 
 	/**
 	 * Add new layer
@@ -39,6 +51,7 @@ app.controller("layersCtrl", function($scope, $window, $http, markupService, api
 		$scope.broadcastLayers();
 		$scope.index++;
 		$scope.options.name = $scope.index;
+		//$scope.setActiveLayer($scope.index);
 	};
 
 	/**
