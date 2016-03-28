@@ -1,0 +1,6 @@
+{
+    "name": "Openseadragon Annotations",
+    "description": "Allow annotations on the Openseadragom large image viewer.",
+    "version": "0.1.0",
+    "dependencies": ["large_image"]
+}
